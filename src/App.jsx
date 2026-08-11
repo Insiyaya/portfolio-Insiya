@@ -23,30 +23,41 @@ function ScrollBar() {
       className="fixed top-0 left-0 right-0 h-[2px] z-[999] origin-left"
       style={{
         scaleX: scrollYProgress,
-        background: 'linear-gradient(to right, #818cf8, #a78bfa, #38bdf8)',
+        background: 'linear-gradient(to right, #FF2DAA, #D946EF, #C084FC)',
+        boxShadow: '0 0 12px rgba(255,45,170,0.5)',
       }}
     />
   )
 }
 
-/* Cursor spotlight */
+/* Cursor spotlight — pointer-device only, and disabled for reduced-motion users */
 function Spotlight() {
-  const [pos, setPos] = useState({ x: -999, y: -999 })
+  const [pos,     setPos]     = useState({ x: -999, y: -999 })
+  const [enabled, setEnabled] = useState(false)
+
   useEffect(() => {
+    const fine   = window.matchMedia('(pointer: fine)').matches
+    const calm   = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (!fine || calm) return
+    setEnabled(true)
+
     const h = e => setPos({ x: e.clientX, y: e.clientY })
     window.addEventListener('mousemove', h, { passive: true })
     return () => window.removeEventListener('mousemove', h)
   }, [])
+
+  if (!enabled) return null
+
   return (
     <div
       className="pointer-events-none fixed z-0 rounded-full"
       style={{
-        width: 500,
-        height: 500,
+        width: 520,
+        height: 520,
         left: pos.x,
         top: pos.y,
         transform: 'translate(-50%,-50%)',
-        background: 'radial-gradient(circle, rgba(129,140,248,0.05) 0%, transparent 68%)',
+        background: 'radial-gradient(circle, rgba(255,45,170,0.055) 0%, rgba(192,132,252,0.025) 42%, transparent 68%)',
         transition: 'left 0.06s, top 0.06s',
         willChange: 'left, top',
       }}

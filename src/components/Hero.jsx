@@ -2,7 +2,11 @@ import { useState, useEffect, useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { SiGithub, SiLinkedin } from 'react-icons/si'
 import { FaEnvelope, FaArrowRight, FaChevronDown } from 'react-icons/fa6'
+import { CornerFrame } from './ui'
+import { HeroCosmos } from './SpaceScene'
 import { LINKS } from '../data'
+
+const EASE = [0.21, 0.47, 0.32, 0.98]
 
 const ROLES = [
   'AI Agent Builder',
@@ -36,47 +40,61 @@ function useTypewriter(words, typeSpeed = 60, deleteSpeed = 30, pauseMs = 2200) 
 }
 
 const FLOATS = [
-  { label: 'Python',  x: '12%', y: '22%', delay: 0,   floatDur: 3.1 },
-  { label: 'FastAPI', x: '82%', y: '18%', delay: 0.6, floatDur: 4.0 },
-  { label: 'Flutter', x: '88%', y: '70%', delay: 1.2, floatDur: 3.7 },
-  { label: 'AWS',     x: '8%',  y: '72%', delay: 0.9, floatDur: 2.9 },
-  { label: 'Docker',  x: '55%', y: '88%', delay: 0.3, floatDur: 3.5 },
-  { label: 'React',   x: '42%', y: '12%', delay: 1.5, floatDur: 4.2 },
+  { label: 'Python',  x: '11%', y: '24%', delay: 0,   floatDur: 3.1 },
+  { label: 'FastAPI', x: '83%', y: '20%', delay: 0.6, floatDur: 4.0 },
+  { label: 'LangChain', x: '87%', y: '68%', delay: 1.2, floatDur: 3.7 },
+  { label: 'AWS',     x: '7%',  y: '70%', delay: 0.9, floatDur: 2.9 },
+  { label: 'Docker',  x: '56%', y: '88%', delay: 0.3, floatDur: 3.5 },
+  { label: 'React',   x: '41%', y: '13%', delay: 1.5, floatDur: 4.2 },
 ]
 
-/* ── Syntax-highlighted code terminal ── */
+/* ── Code syntax palette — the theme, applied to code ── */
+const SYN = {
+  kw:   '#FF4FC3',  // keywords
+  mod:  '#C084FC',  // modules / types
+  fn:   '#F9A8D4',  // functions
+  str:  '#67E8F9',  // strings (technical detail → cyan earns its place here)
+  var:  '#E4D3E9',  // identifiers
+  punc: '#8F7A96',  // punctuation
+}
+
 const CODE = [
-  [{ c: '#c678dd', t: 'from ' }, { c: '#e5c07b', t: 'fastapi' }, { c: '#c678dd', t: ' import ' }, { c: '#61afef', t: 'FastAPI' }, { c: '#abb2bf', t: ', ' }, { c: '#61afef', t: 'Depends' }],
-  [{ c: '#c678dd', t: 'from ' }, { c: '#e5c07b', t: 'langchain_anthropic' }, { c: '#c678dd', t: ' import ' }, { c: '#61afef', t: 'ChatAnthropic' }],
-  [{ c: '#c678dd', t: 'from ' }, { c: '#e5c07b', t: 'langchain.agents' }, { c: '#c678dd', t: ' import ' }, { c: '#61afef', t: 'AgentExecutor' }],
+  [{ c: SYN.kw, t: 'from ' }, { c: SYN.mod, t: 'fastapi' }, { c: SYN.kw, t: ' import ' }, { c: SYN.fn, t: 'FastAPI' }, { c: SYN.punc, t: ', ' }, { c: SYN.fn, t: 'Depends' }],
+  [{ c: SYN.kw, t: 'from ' }, { c: SYN.mod, t: 'langchain_anthropic' }, { c: SYN.kw, t: ' import ' }, { c: SYN.fn, t: 'ChatAnthropic' }],
+  [{ c: SYN.kw, t: 'from ' }, { c: SYN.mod, t: 'langchain.agents' }, { c: SYN.kw, t: ' import ' }, { c: SYN.fn, t: 'AgentExecutor' }],
   [],
-  [{ c: '#e06c75', t: 'app' }, { c: '#abb2bf', t: ' = ' }, { c: '#61afef', t: 'FastAPI' }, { c: '#abb2bf', t: '(' }, { c: '#e06c75', t: 'title' }, { c: '#abb2bf', t: '=' }, { c: '#98c379', t: '"vendor-api"' }, { c: '#abb2bf', t: ')' }],
-  [{ c: '#e06c75', t: 'llm' }, { c: '#abb2bf', t: ' = ' }, { c: '#61afef', t: 'ChatAnthropic' }, { c: '#abb2bf', t: '(' }, { c: '#e06c75', t: 'model' }, { c: '#abb2bf', t: '=' }, { c: '#98c379', t: '"claude-sonnet-4"' }, { c: '#abb2bf', t: ')' }],
+  [{ c: SYN.var, t: 'app' }, { c: SYN.punc, t: ' = ' }, { c: SYN.fn, t: 'FastAPI' }, { c: SYN.punc, t: '(' }, { c: SYN.var, t: 'title' }, { c: SYN.punc, t: '=' }, { c: SYN.str, t: '"vendor-api"' }, { c: SYN.punc, t: ')' }],
+  [{ c: SYN.var, t: 'llm' }, { c: SYN.punc, t: ' = ' }, { c: SYN.fn, t: 'ChatAnthropic' }, { c: SYN.punc, t: '(' }, { c: SYN.var, t: 'model' }, { c: SYN.punc, t: '=' }, { c: SYN.str, t: '"claude-sonnet-4"' }, { c: SYN.punc, t: ')' }],
   [],
-  [{ c: '#e5c07b', t: '@app' }, { c: '#abb2bf', t: '.' }, { c: '#61afef', t: 'post' }, { c: '#abb2bf', t: '(' }, { c: '#98c379', t: '"/v1/agent/invoke"' }, { c: '#abb2bf', t: ')' }],
-  [{ c: '#c678dd', t: 'async def ' }, { c: '#61afef', t: 'invoke' }, { c: '#abb2bf', t: '(' }, { c: '#e06c75', t: 'req' }, { c: '#abb2bf', t: ': ' }, { c: '#e5c07b', t: 'AgentRequest' }, { c: '#abb2bf', t: '):' }],
-  [{ c: '#abb2bf', t: '    ' }, { c: '#e06c75', t: 'executor' }, { c: '#abb2bf', t: ' = ' }, { c: '#61afef', t: 'AgentExecutor' }, { c: '#abb2bf', t: '(' }, { c: '#e06c75', t: 'agent' }, { c: '#abb2bf', t: '=' }, { c: '#e06c75', t: 'llm' }, { c: '#abb2bf', t: ', ' }, { c: '#e06c75', t: 'tools' }, { c: '#abb2bf', t: '=' }, { c: '#e06c75', t: 'tools' }, { c: '#abb2bf', t: ')' }],
-  [{ c: '#abb2bf', t: '    ' }, { c: '#e06c75', t: 'result' }, { c: '#abb2bf', t: ' = ' }, { c: '#c678dd', t: 'await ' }, { c: '#e06c75', t: 'executor' }, { c: '#abb2bf', t: '.' }, { c: '#61afef', t: 'ainvoke' }, { c: '#abb2bf', t: '(' }, { c: '#e06c75', t: 'req' }, { c: '#abb2bf', t: '.' }, { c: '#e06c75', t: 'payload' }, { c: '#abb2bf', t: ')' }],
-  [{ c: '#abb2bf', t: '    ' }, { c: '#c678dd', t: 'return ' }, { c: '#abb2bf', t: '{' }, { c: '#98c379', t: '"status"' }, { c: '#abb2bf', t: ': ' }, { c: '#98c379', t: '"ok"' }, { c: '#abb2bf', t: ', ' }, { c: '#98c379', t: '"data"' }, { c: '#abb2bf', t: ': ' }, { c: '#e06c75', t: 'result' }, { c: '#abb2bf', t: '}' }],
+  [{ c: SYN.mod, t: '@app' }, { c: SYN.punc, t: '.' }, { c: SYN.fn, t: 'post' }, { c: SYN.punc, t: '(' }, { c: SYN.str, t: '"/v1/agent/invoke"' }, { c: SYN.punc, t: ')' }],
+  [{ c: SYN.kw, t: 'async def ' }, { c: SYN.fn, t: 'invoke' }, { c: SYN.punc, t: '(' }, { c: SYN.var, t: 'req' }, { c: SYN.punc, t: ': ' }, { c: SYN.mod, t: 'AgentRequest' }, { c: SYN.punc, t: '):' }],
+  [{ c: SYN.punc, t: '    ' }, { c: SYN.var, t: 'executor' }, { c: SYN.punc, t: ' = ' }, { c: SYN.fn, t: 'AgentExecutor' }, { c: SYN.punc, t: '(' }, { c: SYN.var, t: 'agent' }, { c: SYN.punc, t: '=' }, { c: SYN.var, t: 'llm' }, { c: SYN.punc, t: ', ' }, { c: SYN.var, t: 'tools' }, { c: SYN.punc, t: '=' }, { c: SYN.var, t: 'tools' }, { c: SYN.punc, t: ')' }],
+  [{ c: SYN.punc, t: '    ' }, { c: SYN.var, t: 'result' }, { c: SYN.punc, t: ' = ' }, { c: SYN.kw, t: 'await ' }, { c: SYN.var, t: 'executor' }, { c: SYN.punc, t: '.' }, { c: SYN.fn, t: 'ainvoke' }, { c: SYN.punc, t: '(' }, { c: SYN.var, t: 'req' }, { c: SYN.punc, t: '.' }, { c: SYN.var, t: 'payload' }, { c: SYN.punc, t: ')' }],
+  [{ c: SYN.punc, t: '    ' }, { c: SYN.kw, t: 'return ' }, { c: SYN.punc, t: '{' }, { c: SYN.str, t: '"status"' }, { c: SYN.punc, t: ': ' }, { c: SYN.str, t: '"ok"' }, { c: SYN.punc, t: ', ' }, { c: SYN.str, t: '"data"' }, { c: SYN.punc, t: ': ' }, { c: SYN.var, t: 'result' }, { c: SYN.punc, t: '}' }],
 ]
 
 function CodeTerminal() {
   return (
     <motion.div
       initial={{ opacity: 0, x: 50, filter: 'blur(10px)' }}
-      animate={{ opacity: 0.6, x: 0, filter: 'blur(0px)' }}
-      transition={{ duration: 1.4, delay: 1.8, ease: [0.21, 0.47, 0.32, 0.98] }}
-      className="hidden lg:block absolute right-[3%] top-[16%] w-[290px] z-[2] pointer-events-none select-none"
+      animate={{ opacity: 0.62, x: 0, filter: 'blur(0px)' }}
+      transition={{ duration: 1.4, delay: 1.8, ease: EASE }}
+      className="hidden lg:block absolute right-[3%] top-[15%] w-[292px] z-[2] pointer-events-none select-none"
     >
-      <div className="rounded-xl border border-white/[0.08] bg-[#0d1117]/80 backdrop-blur-xl shadow-[0_24px_80px_rgba(0,0,0,0.5)] overflow-hidden">
-        {/* Window chrome */}
-        <div className="flex items-center gap-1.5 px-3 py-2 border-b border-white/[0.06] bg-white/[0.02]">
-          <span className="w-2 h-2 rounded-full bg-red-400/60" />
-          <span className="w-2 h-2 rounded-full bg-yellow-400/60" />
-          <span className="w-2 h-2 rounded-full bg-green-400/60" />
-          <span className="ml-2 text-[9px] font-mono text-slate-600">routes/agent.py</span>
+      {/* HUD framing brackets sit just outside the terminal */}
+      <div className="absolute -inset-2.5">
+        <CornerFrame color="rgba(255,45,170,0.26)" />
+      </div>
+
+      <div className="relative rounded-xl border border-line bg-surface/90 backdrop-blur-xl shadow-[0_24px_80px_rgba(13,8,18,0.75)] overflow-hidden">
+        {/* Window chrome — pink/magenta/lavender instead of traffic lights */}
+        <div className="flex items-center gap-1.5 px-3 py-2 border-b border-line bg-surface2/60">
+          <span className="w-2 h-2 rounded-full bg-hotpink/70" />
+          <span className="w-2 h-2 rounded-full bg-magenta/60" />
+          <span className="w-2 h-2 rounded-full bg-lavender/50" />
+          <span className="ml-2 text-[9px] font-mono text-faint">routes/agent.py</span>
         </div>
-        {/* Code */}
+
         <div className="p-3 font-mono text-[10px] leading-[1.75]">
           {CODE.map((tokens, i) => (
             <motion.div
@@ -86,7 +104,7 @@ function CodeTerminal() {
               transition={{ duration: 0.25, delay: 2.2 + i * 0.14 }}
               className="flex"
             >
-              <span className="text-slate-700 w-5 text-right mr-3 select-none text-[9px]">{i + 1}</span>
+              <span className="text-faint/55 w-5 text-right mr-3 select-none text-[9px]">{i + 1}</span>
               <span>
                 {tokens.map((tok, j) => (
                   <span key={j} style={{ color: tok.c }}>{tok.t}</span>
@@ -98,7 +116,7 @@ function CodeTerminal() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 4.2 }}
-            className="text-sky-400/60 animate-blink ml-6 text-xs"
+            className="text-hotpink/70 animate-blink ml-6 text-xs"
           >
             ▊
           </motion.span>
@@ -116,8 +134,8 @@ function MagneticBtn({ href, children, className, style, target, rel }) {
   const onMove = e => {
     const r = ref.current.getBoundingClientRect()
     setPos({
-      x: (e.clientX - r.left - r.width  / 2) * 0.28,
-      y: (e.clientY - r.top  - r.height / 2) * 0.28,
+      x: (e.clientX - r.left - r.width  / 2) * 0.24,
+      y: (e.clientY - r.top  - r.height / 2) * 0.24,
     })
   }
 
@@ -140,6 +158,38 @@ function MagneticBtn({ href, children, className, style, target, rel }) {
   )
 }
 
+/* ── Corner technical labels — micro-details that read as "custom built" ── */
+function EdgeLabels() {
+  return (
+    <div className="hidden md:block absolute inset-0 z-[2] pointer-events-none select-none">
+      <motion.span
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 1.6 }}
+        className="absolute top-28 left-6 font-mono text-[9.5px] tracking-[0.22em] uppercase text-faint/70"
+      >
+        // hero.init
+      </motion.span>
+
+      <motion.span
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 1.75 }}
+        className="absolute bottom-28 left-6 font-mono text-[9.5px] tracking-[0.22em] uppercase text-faint/70"
+      >
+        indore · in
+      </motion.span>
+
+      {/* Orbital-coordinates readout, bottom right — technical margin note */}
+      <motion.span
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 1.9 }}
+        className="absolute bottom-28 right-6 font-mono text-[9.5px] tracking-[0.22em] uppercase text-faint/70"
+      >
+        orbit · stable
+      </motion.span>
+    </div>
+  )
+}
+
 /* ── Hero ── */
 export default function Hero() {
   const typed   = useTypewriter(ROLES)
@@ -155,38 +205,55 @@ export default function Hero() {
   const floatOpacity   = useTransform(scrollYProgress, [0, 0.35], [1, 0])
 
   return (
-    <section ref={heroRef} id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#030712]">
-      {/* Grid pattern (circuit-style) */}
-      <div className="absolute inset-0 circuit-grid opacity-100" />
+    <section
+      ref={heroRef}
+      id="home"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-void"
+    >
+      {/* Fine circuit grid */}
+      <div className="absolute inset-0 circuit-grid" />
+      {/* Barely-visible scanline texture */}
+      <div className="absolute inset-0 scanlines opacity-60" />
 
-      {/* Gradient blobs — parallax */}
+      {/* Atmospheric pink glow — parallax, deliberately soft */}
       <motion.div className="absolute inset-0 pointer-events-none" style={{ y: blobY }}>
-        <div className="absolute top-[20%] left-[20%] w-[520px] h-[520px] rounded-full blur-[130px] bg-indigo-500/[0.13] animate-blob" />
-        <div className="absolute top-[30%] right-[18%] w-[420px] h-[420px] rounded-full blur-[120px] bg-violet-500/[0.10] animate-blob2 animation-delay-2" />
-        <div className="absolute bottom-[15%] left-[45%] w-[380px] h-[380px] rounded-full blur-[110px] bg-sky-500/[0.08] animate-blob3 animation-delay-4" />
+        <div className="absolute top-[18%] left-[18%] w-[520px] h-[520px] rounded-full blur-[130px] bg-hotpink/[0.14] animate-blob" />
+        <div className="absolute top-[30%] right-[16%] w-[430px] h-[430px] rounded-full blur-[120px] bg-magenta/[0.11] animate-blob2 animation-delay-2" />
+        <div className="absolute bottom-[14%] left-[44%] w-[380px] h-[380px] rounded-full blur-[110px] bg-lavender/[0.09] animate-blob3 animation-delay-4" />
       </motion.div>
 
+      {/* Planetary scene — starfield, worlds, orbiting moon, planet horizon */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 2, delay: 0.5, ease: EASE }}
+        className="absolute inset-0"
+      >
+        <HeroCosmos />
+      </motion.div>
+
+      <EdgeLabels />
+
       {/* Floating tech labels */}
-      <motion.div className="absolute inset-0 pointer-events-none" style={{ opacity: floatOpacity }}>
+      <motion.div className="hidden sm:block absolute inset-0 pointer-events-none" style={{ opacity: floatOpacity }}>
         {FLOATS.map(f => (
           <motion.div
             key={f.label}
             initial={{ opacity: 0, scale: 0.6 }}
-            animate={{ opacity: 0.18, scale: 1, y: [0, -7, 0] }}
+            animate={{ opacity: 0.5, scale: 1, y: [0, -7, 0] }}
             transition={{
               opacity: { duration: 1, delay: f.delay + 1.2 },
               scale:   { duration: 1, delay: f.delay + 1.2 },
               y: { duration: f.floatDur, repeat: Infinity, ease: 'easeInOut', delay: f.delay + 1.5 },
             }}
             style={{ position: 'absolute', left: f.x, top: f.y }}
-            className="font-mono text-[10px] text-slate-300 px-2 py-1 rounded border border-white/[0.08] bg-white/[0.03] backdrop-blur-sm select-none"
+            className="font-mono text-[10px] text-dim px-2 py-1 rounded-md border border-line bg-surface/70 backdrop-blur-sm select-none"
           >
             {f.label}
           </motion.div>
         ))}
       </motion.div>
 
-      {/* ── Code terminal (desktop) ── */}
       <CodeTerminal />
 
       {/* ── Main content — parallax ── */}
@@ -194,97 +261,136 @@ export default function Hero() {
         className="relative z-10 text-center px-5 max-w-4xl mx-auto"
         style={{ y: contentY, opacity: contentOpacity }}
       >
+        {/* System status */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55 }}
-          className="inline-flex items-center gap-2 mb-8 px-4 py-1.5 rounded-full font-mono text-xs tracking-[0.1em] text-emerald-400 border border-emerald-400/[0.22] bg-emerald-400/[0.06]"
+          className="inline-flex items-center gap-2.5 mb-8 px-4 py-1.5 rounded-full font-mono text-[10.5px] tracking-[0.16em] uppercase text-cyber border border-cyber/20 bg-cyber/[0.05]"
         >
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          open to work &amp; freelance
+          <span className="relative flex h-1.5 w-1.5">
+            <span className="absolute inline-flex h-full w-full rounded-full bg-cyber animate-ping opacity-60" />
+            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-cyber" />
+          </span>
+          system online · open to work &amp; freelance
         </motion.div>
 
+        {/* Name — the loudest thing on the page */}
         <motion.h1
           initial={{ opacity: 0, y: 32 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.75, delay: 0.12, ease: [0.21, 0.47, 0.32, 0.98] }}
-          className="font-display font-black tracking-[-0.045em] leading-[1.04] mb-5"
-          style={{ fontSize: 'clamp(3.2rem, 8.5vw, 6.8rem)' }}
+          transition={{ duration: 0.75, delay: 0.12, ease: EASE }}
+          className="font-display font-bold tracking-[-0.05em] leading-[1.02] mb-4"
+          style={{ fontSize: 'clamp(3rem, 8.5vw, 6.8rem)' }}
         >
           <span className="grad-text">Insiya Husain</span>
         </motion.h1>
 
-        <motion.p
+        {/* Role statement — the message that has to land instantly */}
+        <motion.h2
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.24 }}
-          className="text-slate-400 font-medium mb-4"
-          style={{ fontSize: 'clamp(1rem, 2.4vw, 1.25rem)' }}
+          transition={{ duration: 0.7, delay: 0.24, ease: EASE }}
+          className="font-display font-semibold tracking-[-0.02em] text-ink mb-4"
+          style={{ fontSize: 'clamp(1.15rem, 3.4vw, 1.9rem)' }}
         >
-          Software Engineer &nbsp;·&nbsp;{' '}
-          <span className="text-sky-400 font-semibold">
+          Full Stack Engineer
+          <span className="text-hotpink/50 font-light mx-2.5 md:mx-3.5">×</span>
+          <span className="grad-text-static italic">AI Engineer</span>
+        </motion.h2>
+
+        {/* Rotating specialisation — terminal voice */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.34 }}
+          className="font-mono text-[0.78rem] md:text-[0.85rem] text-faint mb-7 tracking-tight"
+        >
+          <span className="text-hotpink/70 mr-1.5">&gt;</span>
+          specializing in{' '}
+          <span className="text-softpink">
             {typed}
-            <span className="text-sky-300/70 animate-blink font-thin">_</span>
+            <span className="text-hotpink animate-blink font-thin">_</span>
           </span>
         </motion.p>
 
         <motion.p
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.36 }}
-          className="text-slate-400/75 text-[0.9rem] max-w-[560px] mx-auto mb-10 leading-relaxed"
+          transition={{ duration: 0.7, delay: 0.42 }}
+          className="text-dim text-[0.9rem] max-w-[566px] mx-auto mb-10 leading-[1.8] text-pretty"
         >
           I ship production-grade systems that solve real problems, from{' '}
-          <span className="text-slate-200 font-medium">AI-powered agents</span> and{' '}
-          <span className="text-slate-200 font-medium">high-throughput APIs</span> to{' '}
-          <span className="text-slate-200 font-medium">cloud-native infrastructure</span> on AWS.
+          <span className="text-ink font-medium">AI-powered agents</span> and{' '}
+          <span className="text-ink font-medium">high-throughput APIs</span> to{' '}
+          <span className="text-ink font-medium">cloud-native infrastructure</span> on AWS.
         </motion.p>
 
+        {/* CTAs */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.48 }}
-          className="flex gap-3 justify-center flex-wrap mb-12"
+          transition={{ duration: 0.7, delay: 0.52 }}
+          className="flex gap-3 justify-center flex-wrap mb-9"
         >
-          <MagneticBtn
-            href="#contact"
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold text-[0.875rem] text-white shadow-[0_4px_20px_rgba(129,140,248,0.35)] hover:shadow-[0_8px_30px_rgba(129,140,248,0.55)] transition-shadow duration-300"
-            style={{ background: 'linear-gradient(135deg,#818cf8,#a78bfa,#38bdf8)' }}
-          >
+          <MagneticBtn href="#contact" className="btn-primary">
             <FaEnvelope className="text-xs" /> Get In Touch
           </MagneticBtn>
 
-          <MagneticBtn
-            href="#projects"
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold text-[0.875rem] text-slate-200 border border-white/[0.09] bg-white/[0.03] backdrop-blur-sm hover:border-indigo-400/35 hover:bg-indigo-500/[0.08] transition-all duration-200"
-          >
+          <MagneticBtn href="#projects" className="btn-ghost">
             <FaArrowRight className="text-xs" /> View Work
           </MagneticBtn>
         </motion.div>
 
+        {/* Socials */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.6 }}
-          className="flex gap-2.5 justify-center"
+          className="flex gap-2.5 justify-center mb-10"
         >
           {[
             { Icon: SiGithub,   href: LINKS.github,   label: 'GitHub' },
-            { Icon: SiLinkedin, href: LINKS.linkedin,  label: 'LinkedIn' },
-            { Icon: FaEnvelope, href: LINKS.email,     label: 'Email' },
+            { Icon: SiLinkedin, href: LINKS.linkedin, label: 'LinkedIn' },
+            { Icon: FaEnvelope, href: LINKS.email,    label: 'Email' },
           ].map(({ Icon, href, label }) => (
             <motion.a
               key={label}
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ y: -4, scale: 1.12 }}
+              whileHover={{ y: -4, scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              className="w-10 h-10 rounded-xl flex items-center justify-center text-slate-400 border border-white/[0.07] bg-white/[0.03] hover:text-white hover:bg-indigo-500/20 hover:border-indigo-400/35 transition-colors duration-200"
+              className="w-10 h-10 rounded-xl flex items-center justify-center text-dim border border-line bg-surface/70
+                         hover:text-ink hover:border-hotpink/45 hover:bg-hotpink/[0.10]
+                         hover:shadow-[0_6px_20px_rgba(255,45,170,0.18)] transition-colors duration-200"
               title={label}
             >
               <Icon className="text-[1.05rem]" />
             </motion.a>
+          ))}
+        </motion.div>
+
+        {/* AI pipeline micro-diagram — a technical signature, not a gimmick */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.9 }}
+          className="hidden sm:flex items-center justify-center gap-2.5 font-mono text-[9.5px] tracking-[0.18em] uppercase text-faint/80 select-none"
+        >
+          {['model', 'tools', 'response'].map((node, i) => (
+            <span key={node} className="flex items-center gap-2.5">
+              {i > 0 && (
+                <span className="flex items-center gap-1.5" aria-hidden="true">
+                  <span className="w-6 h-px bg-gradient-to-r from-hotpink/40 to-lavender/30" />
+                  <span className="text-hotpink/50">→</span>
+                </span>
+              )}
+              <span className="flex items-center gap-1.5">
+                <span className={`w-1 h-1 rounded-full ${i === 0 ? 'bg-hotpink' : i === 1 ? 'bg-magenta' : 'bg-lavender'}`} />
+                {node}
+              </span>
+            </span>
           ))}
         </motion.div>
       </motion.div>
@@ -292,7 +398,7 @@ export default function Hero() {
       {/* Scroll cue */}
       <motion.div
         style={{ opacity: contentOpacity }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 text-slate-600 text-[10px] tracking-[0.2em] uppercase select-none"
+        className="absolute bottom-7 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 text-faint/70 text-[9.5px] tracking-[0.22em] uppercase select-none font-mono"
       >
         <motion.div
           animate={{ y: [0, 7, 0] }}

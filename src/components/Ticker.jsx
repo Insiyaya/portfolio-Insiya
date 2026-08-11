@@ -1,48 +1,57 @@
 import { useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import {
-  SiPython, SiCplusplus, SiDart, SiJavascript,
-  SiFastapi, SiDjango, SiFlutter, SiReact,
-  SiDocker, SiTerraform,
+  SiPython, SiCplusplus, SiDart, SiJavascript, SiTypescript,
+  SiFastapi, SiDjango, SiFlutter, SiReact, SiNextdotjs, SiTailwindcss,
+  SiDocker, SiTerraform, SiPostgresql, SiMongodb,
 } from 'react-icons/si'
-import { FaBrain, FaRobot, FaDatabase, FaAws, FaWandMagicSparkles } from 'react-icons/fa6'
+import { FaBrain, FaRobot, FaDatabase, FaAws, FaWandMagicSparkles, FaLayerGroup } from 'react-icons/fa6'
+
+/* Icons are tinted from the palette rather than brand colours — a wall of
+   brand logos would fight the pink identity. Tone drives the accent. */
+const P = { pink: '#FF2DAA', neon: '#FF4FC3', magenta: '#D946EF', lavender: '#C084FC', soft: '#F9A8D4', cyber: '#67E8F9' }
 
 const SKILLS_ROW1 = [
-  { name: 'Python',      icon: SiPython,           color: '#3776AB' },
-  { name: 'FastAPI',     icon: SiFastapi,          color: '#009688' },
-  { name: 'Flutter',     icon: SiFlutter,          color: '#54C5F8' },
-  { name: 'AWS',         icon: FaAws,              color: '#FF9900' },
-  { name: 'Docker',      icon: SiDocker,           color: '#2496ED' },
-  { name: 'React',       icon: SiReact,            color: '#61DAFB' },
-  { name: 'LangChain',   icon: FaBrain,            color: '#818CF8' },
-  { name: 'Agentic AI',  icon: FaRobot,            color: '#38BDF8' },
-  { name: 'Django',      icon: SiDjango,           color: '#44B78B' },
+  { name: 'Python',     icon: SiPython,      color: P.pink     },
+  { name: 'FastAPI',    icon: SiFastapi,     color: P.neon     },
+  { name: 'Flutter',    icon: SiFlutter,     color: P.lavender },
+  { name: 'AWS',        icon: FaAws,         color: P.magenta  },
+  { name: 'Docker',     icon: SiDocker,      color: P.lavender },
+  { name: 'React',      icon: SiReact,       color: P.soft     },
+  { name: 'LangChain',  icon: FaBrain,       color: P.cyber    },
+  { name: 'AI Agents',  icon: FaRobot,       color: P.cyber    },
+  { name: 'Django',     icon: SiDjango,      color: P.pink     },
 ]
 
 const SKILLS_ROW2 = [
-  { name: 'JavaScript',  icon: SiJavascript,       color: '#F7DF1E' },
-  { name: 'C++',         icon: SiCplusplus,        color: '#00599C' },
-  { name: 'Dart',        icon: SiDart,             color: '#0175C2' },
-  { name: 'Terraform',   icon: SiTerraform,        color: '#7B42BC' },
-  { name: 'DynamoDB',    icon: FaDatabase,         color: '#4053D6' },
-  { name: 'Prompt Eng.', icon: FaWandMagicSparkles, color: '#A78BFA' },
-  { name: 'Python',      icon: SiPython,           color: '#3776AB' },
-  { name: 'FastAPI',     icon: SiFastapi,          color: '#009688' },
-  { name: 'Flutter',     icon: SiFlutter,          color: '#54C5F8' },
+  { name: 'TypeScript', icon: SiTypescript,  color: P.magenta  },
+  { name: 'JavaScript', icon: SiJavascript,  color: P.pink     },
+  { name: 'C++',        icon: SiCplusplus,   color: P.lavender },
+  { name: 'Next.js',    icon: SiNextdotjs,   color: P.soft     },
+  { name: 'Tailwind',   icon: SiTailwindcss, color: P.lavender },
+  { name: 'Terraform',  icon: SiTerraform,   color: P.magenta  },
+  { name: 'PostgreSQL', icon: SiPostgresql,  color: P.pink     },
+  { name: 'MongoDB',    icon: SiMongodb,     color: P.neon     },
+  { name: 'DynamoDB',   icon: FaDatabase,    color: P.lavender },
+  { name: 'RAG',        icon: FaLayerGroup,  color: P.cyber    },
+  { name: 'Prompt Eng.',icon: FaWandMagicSparkles, color: P.soft },
+  { name: 'Dart',       icon: SiDart,        color: P.magenta  },
 ]
 
 function SkillPill({ name, icon: Icon, color }) {
   return (
     <motion.span
       whileHover={{
-        scale: 1.14,
-        y: -4,
-        borderColor: `${color}60`,
-        background: `${color}18`,
-        boxShadow: `0 8px 30px ${color}30, 0 0 0 1px ${color}25`,
+        scale: 1.1,
+        y: -3,
+        borderColor: `${color}66`,
+        background: `${color}14`,
+        boxShadow: `0 8px 26px ${color}2e`,
       }}
       transition={{ type: 'spring', stiffness: 380, damping: 18 }}
-      className="inline-flex items-center gap-2 px-4 py-2 rounded-full font-mono text-[11px] font-medium tracking-[0.06em] text-slate-400 whitespace-nowrap border border-white/[0.06] bg-white/[0.025] cursor-default transition-colors duration-200 hover:text-white"
+      className="inline-flex items-center gap-2 px-4 py-2 rounded-full font-mono text-[11px] font-medium
+                 tracking-[0.06em] text-dim whitespace-nowrap border border-line bg-surface/60
+                 cursor-default transition-colors duration-200 hover:text-ink"
     >
       <Icon className="text-sm flex-shrink-0" style={{ color }} />
       {name}
@@ -51,8 +60,8 @@ function SkillPill({ name, icon: Icon, color }) {
 }
 
 function TickerRow({ items, direction = 'left', speed = 40 }) {
-  const ref = useRef(null)
   const [hovered, setHovered] = useState(false)
+  const ref = useRef(null)
   const dup = [...items, ...items, ...items]
 
   return (
@@ -81,15 +90,9 @@ function TickerRow({ items, direction = 'left', speed = 40 }) {
 
 export default function Ticker() {
   return (
-    <div
-      className="relative py-5 border-y border-white/[0.04] bg-[#030712]/80 backdrop-blur-sm overflow-hidden select-none space-y-3"
-      style={{
-        maskImage: 'linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)',
-        WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)',
-      }}
-    >
-      <TickerRow items={SKILLS_ROW1} direction="left" speed={38} />
-      <TickerRow items={SKILLS_ROW2} direction="right" speed={42} />
+    <div className="relative py-5 border-y border-line bg-surface/50 backdrop-blur-sm overflow-hidden select-none space-y-3 mask-x">
+      <TickerRow items={SKILLS_ROW1} direction="left"  speed={38} />
+      <TickerRow items={SKILLS_ROW2} direction="right" speed={44} />
     </div>
   )
 }

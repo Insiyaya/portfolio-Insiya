@@ -4,24 +4,22 @@ import { FaUsers, FaCodePullRequest, FaBolt } from 'react-icons/fa6'
 import { SectionHeader, FadeUp } from './ui'
 import { LINKS } from '../data'
 
-const STATS   = [
-  { num: '40+', label: 'Public Repos'  },
-  { num: '3',   label: 'Achievements'  },
-  { num: '×2',  label: 'Pull Shark'    },
+const STATS = [
+  { num: '40+', label: 'Public Repos' },
+  { num: '3',   label: 'Achievements' },
+  { num: '×2',  label: 'Pull Shark'   },
 ]
+
 const ACHVS = [
-  { icon: FaUsers,          label: 'Pair Extraordinaire' },
-  { icon: FaCodePullRequest, label: 'Pull Shark ×2'      },
-  { icon: FaBolt,           label: 'Quickdraw'           },
+  { icon: FaUsers,           label: 'Pair Extraordinaire' },
+  { icon: FaCodePullRequest, label: 'Pull Shark ×2'       },
+  { icon: FaBolt,            label: 'Quickdraw'           },
 ]
 
 export default function OpenSource() {
   return (
-    <section
-      id="opensource"
-      className="relative py-24 overflow-hidden bg-[#030712]"
-    >
-      <div className="max-w-2xl mx-auto px-5">
+    <section id="opensource" className="relative py-24 overflow-hidden bg-void">
+      <div className="relative max-w-2xl mx-auto px-5">
         <SectionHeader
           tag="// github.contributions"
           title="Open Source"
@@ -30,26 +28,30 @@ export default function OpenSource() {
 
         <FadeUp>
           <motion.div
-            whileHover={{ borderColor: 'rgba(129,140,248,0.28)', boxShadow: '0 20px 50px rgba(129,140,248,0.12)' }}
-            className="p-8 rounded-2xl bg-white/[0.03] border border-white/[0.06] transition-all duration-300 text-center"
+            whileHover={{ borderColor: 'rgba(255,45,170,0.38)', boxShadow: '0 20px 54px rgba(255,45,170,0.13)' }}
+            transition={{ duration: 0.3 }}
+            className="p-8 card text-center relative overflow-hidden"
           >
-            <SiGithub className="text-4xl text-slate-400 mx-auto mb-6" />
+            <div className="absolute inset-0 dot-grid opacity-50 pointer-events-none" />
 
-            <div className="flex justify-center gap-10 mb-7">
+            <SiGithub className="text-4xl text-dim mx-auto mb-6 relative" />
+
+            <div className="flex justify-center gap-10 mb-7 relative">
               {STATS.map(({ num, label }) => (
                 <div key={label}>
-                  <div className="font-display text-3xl font-black grad-text mb-0.5">{num}</div>
-                  <div className="text-[10px] text-slate-500 uppercase tracking-[0.12em]">{label}</div>
+                  <div className="font-display text-3xl font-bold grad-text-static mb-0.5">{num}</div>
+                  <div className="text-[10px] text-faint uppercase tracking-[0.12em]">{label}</div>
                 </div>
               ))}
             </div>
 
-            <div className="flex flex-wrap justify-center gap-2 mb-7">
+            <div className="flex flex-wrap justify-center gap-2 mb-7 relative">
               {ACHVS.map(({ icon: Icon, label }) => (
                 <motion.span
                   key={label}
-                  whileHover={{ scale: 1.06 }}
-                  className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold text-indigo-300 border border-indigo-400/[0.2] bg-indigo-400/[0.07]"
+                  whileHover={{ scale: 1.05, borderColor: 'rgba(255,45,170,0.48)', color: '#FFF7FC' }}
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold text-softpink
+                             border border-hotpink/[0.20] bg-hotpink/[0.06] cursor-default"
                 >
                   <Icon className="text-[11px]" /> {label}
                 </motion.span>
@@ -60,9 +62,9 @@ export default function OpenSource() {
               href={LINKS.github}
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ scale: 1.03, y: -2 }}
+              whileHover={{ y: -2 }}
               whileTap={{ scale: 0.97 }}
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold text-sm text-slate-200 border border-white/[0.09] bg-white/[0.03] backdrop-blur-sm hover:border-indigo-400/35 hover:bg-indigo-500/[0.08] transition-all duration-200"
+              className="btn-ghost relative"
             >
               <SiGithub /> View Profile
             </motion.a>

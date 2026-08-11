@@ -3,7 +3,7 @@ import { FaAws, FaCircleCheck } from 'react-icons/fa6'
 import { SectionHeader, StaggerContainer, StaggerItem, SpotlightCard } from './ui'
 import { CERTS } from '../data'
 
-function AzureIcon({ size = 24, color = '#0078D4' }) {
+function AzureIcon({ size = 24, color = '#C084FC' }) {
   return (
     <svg width={size} height={size} viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M33.26 8.33l-20.8 54.63h17.1l23.2-33.5z" fill={color}/>
@@ -24,31 +24,31 @@ function CertCard({ cert }) {
     <StaggerItem>
       {/* Spinning gradient border wrapper */}
       <div className="relative rounded-2xl group overflow-hidden">
-        {/* Spinning conic-gradient border — visible on hover */}
+        {/* Spinning conic-gradient border — visible on hover only */}
         <motion.div
           animate={{ rotate: 360 }}
-          transition={{ duration: 5, repeat: Infinity, ease: 'linear' }}
+          transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
           className="absolute opacity-0 group-hover:opacity-100 transition-opacity duration-500"
           style={{
             inset: '-50%',
-            background: `conic-gradient(from 0deg at 50% 50%, transparent 0deg, ${cert.color} 60deg, transparent 120deg, transparent 240deg, ${cert.color}60 300deg, transparent 360deg)`,
+            background: `conic-gradient(from 0deg at 50% 50%, transparent 0deg, ${cert.color} 60deg, transparent 120deg, transparent 240deg, ${cert.color}66 300deg, transparent 360deg)`,
           }}
         />
 
         {/* Inner card — 1.5px gap reveals the spinning border */}
         <SpotlightCard
-          glowColor={`${cert.color}18`}
-          className="relative m-[1.5px] rounded-[calc(1rem-1.5px)]"
+          glowColor={`${cert.color}1f`}
+          className="relative m-[1.5px] rounded-[calc(1rem-1.5px)] border border-line"
         >
           <motion.div
             whileHover={{ y: -5 }}
             transition={{ duration: 0.25 }}
-            className="relative p-6 bg-[#060d1f] flex gap-5 items-start overflow-hidden"
+            className="relative p-6 bg-surface flex gap-5 items-start overflow-hidden"
           >
             {/* Corner glow */}
             <div
               className="absolute top-0 right-0 w-36 h-36 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-              style={{ background: `${cert.color}12` }}
+              style={{ background: `${cert.color}16` }}
             />
 
             {/* Icon */}
@@ -63,13 +63,13 @@ function CertCard({ cert }) {
 
             {/* Text content */}
             <div className="relative z-10">
-              <h3 className="font-display text-[1rem] font-bold tracking-tight mb-1">{cert.name}</h3>
-              <p className="text-slate-500 text-xs mb-3">{cert.issuer} · {cert.level}</p>
+              <h3 className="font-display text-[1rem] font-bold tracking-[-0.02em] text-ink mb-1">{cert.name}</h3>
+              <p className="text-faint text-xs mb-3">{cert.issuer} · {cert.level}</p>
               <span
-                className="inline-flex items-center gap-1.5 text-[10px] font-bold tracking-wider px-2.5 py-1 rounded-full border"
+                className="inline-flex items-center gap-1.5 text-[10px] font-mono tracking-[0.14em] uppercase px-2.5 py-1 rounded-md border"
                 style={{ color: cert.color, background: cert.bg, borderColor: cert.border }}
               >
-                <FaCircleCheck /> VERIFIED
+                <FaCircleCheck /> verified
               </span>
             </div>
           </motion.div>
@@ -81,12 +81,13 @@ function CertCard({ cert }) {
 
 export default function Certifications() {
   return (
-    <section
-      id="certifications"
-      className="relative py-24 overflow-hidden"
-      style={{ background: 'radial-gradient(ellipse 50% 50% at 30% 60%, rgba(129,140,248,0.065) 0%, transparent 55%), #060d1f' }}
-    >
-      <div className="max-w-3xl mx-auto px-5">
+    <section id="certifications" className="relative py-24 overflow-hidden bg-void">
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse 50% 48% at 28% 56%, rgba(255,45,170,0.06) 0%, transparent 58%)' }}
+      />
+
+      <div className="relative max-w-3xl mx-auto px-5">
         <SectionHeader
           tag="// certifications.verified"
           title="Cloud"
