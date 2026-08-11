@@ -1,18 +1,29 @@
 import { useRef, useEffect } from 'react'
 
 /**
- * Canvas-based particle constellation that reacts to the cursor.
- * Renders connected dots drifting across the viewport — classic "techy" look.
+ * Canvas particle constellation that reacts to the cursor.
+ * Themed to the pink/lavender palette and kept faint so it reads as
+ * ambient technical texture rather than a foreground effect.
+ * Skipped entirely for reduced-motion users.
  */
 export default function ParticleNetwork() {
   const canvasRef = useRef(null)
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
     const canvas = canvasRef.current
-    const ctx    = canvas.getContext('2d')
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
     let animId
     let mouse = { x: -9999, y: -9999 }
     let W, H
+
+    /* Fewer nodes on small screens — cheaper and far less busy */
+    const isSmall    = window.innerWidth < 768
+    const COUNT      = isSmall ? 26 : 52
+    const MAX_DIST   = isSmall ? 105 : 130
+    const MOUSE_DIST = 170
 
     const resize = () => {
       W = canvas.width  = window.innerWidth
@@ -24,16 +35,14 @@ export default function ParticleNetwork() {
     window.addEventListener('resize', resize)
     window.addEventListener('mousemove', onMouse, { passive: true })
 
-    const COUNT      = 55
-    const MAX_DIST   = 130
-    const MOUSE_DIST = 170
-
     const particles = Array.from({ length: COUNT }, () => ({
       x:  Math.random() * (W || 1200),
       y:  Math.random() * (H || 800),
-      vx: (Math.random() - 0.5) * 0.32,
-      vy: (Math.random() - 0.5) * 0.32,
-      r:  Math.random() * 1.4 + 0.5,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      r:  Math.random() * 1.3 + 0.45,
+      /* A few nodes lean lavender so the field isn't monochrome pink */
+      lav: Math.random() > 0.72,
     }))
 
     const draw = () => {
@@ -49,7 +58,7 @@ export default function ParticleNetwork() {
 
         ctx.beginPath()
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
-        ctx.fillStyle = 'rgba(129,140,248,0.45)'
+        ctx.fillStyle = p.lav ? 'rgba(192,132,252,0.42)' : 'rgba(255,45,170,0.42)'
         ctx.fill()
       }
 
@@ -63,11 +72,12 @@ export default function ParticleNetwork() {
             ctx.beginPath()
             ctx.moveTo(particles[i].x, particles[i].y)
             ctx.lineTo(particles[j].x, particles[j].y)
-            ctx.strokeStyle = `rgba(129,140,248,${0.10 * (1 - d / MAX_DIST)})`
+            ctx.strokeStyle = `rgba(217,70,239,${0.09 * (1 - d / MAX_DIST)})`
             ctx.lineWidth   = 0.5
             ctx.stroke()
           }
         }
+
         /* Lines connecting particle to the cursor */
         const dx = particles[i].x - mouse.x
         const dy = particles[i].y - mouse.y
@@ -76,14 +86,14 @@ export default function ParticleNetwork() {
           ctx.beginPath()
           ctx.moveTo(particles[i].x, particles[i].y)
           ctx.lineTo(mouse.x, mouse.y)
-          ctx.strokeStyle = `rgba(129,140,248,${0.22 * (1 - d / MOUSE_DIST)})`
+          ctx.strokeStyle = `rgba(255,45,170,${0.20 * (1 - d / MOUSE_DIST)})`
           ctx.lineWidth   = 0.7
           ctx.stroke()
 
           /* Glow up the particle near cursor */
           ctx.beginPath()
           ctx.arc(particles[i].x, particles[i].y, particles[i].r * 2.5, 0, Math.PI * 2)
-          ctx.fillStyle = `rgba(129,140,248,${0.14 * (1 - d / MOUSE_DIST)})`
+          ctx.fillStyle = `rgba(255,79,195,${0.13 * (1 - d / MOUSE_DIST)})`
           ctx.fill()
         }
       }
@@ -102,8 +112,9 @@ export default function ParticleNetwork() {
   return (
     <canvas
       ref={canvasRef}
+      aria-hidden="true"
       className="fixed inset-0 pointer-events-none"
-      style={{ zIndex: 1, opacity: 0.55 }}
+      style={{ zIndex: 1, opacity: 0.4 }}
     />
   )
 }

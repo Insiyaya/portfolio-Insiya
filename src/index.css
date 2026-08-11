@@ -1,80 +1,336 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ══════════════════════════════════════════════════════════════
+   DESIGN TOKENS — single source of truth
+   Theme: Cyber Femme × AI Engineer × Premium SaaS × Y2K Futurism
+   Ratio: ~75% dark purple · 15% pink · 7% lavender · 3% cyan
+   ══════════════════════════════════════════════════════════════ */
+:root {
+  /* Surfaces */
+  --void:      #0D0812;
+  --surface:   #160D1C;
+  --surface-2: #211126;
+  --surface-3: #2B1732;
+
+  /* Borders */
+  --line:      #33203A;
+  --line-2:    #4A294F;
+
+  /* Accents */
+  --pink:      #FF2DAA;
+  --neon:      #FF4FC3;
+  --magenta:   #D946EF;
+  --lavender:  #C084FC;
+  --soft-pink: #F9A8D4;
+  --cyber:     #67E8F9;
+
+  /* Type */
+  --text:      #FFF7FC;
+  --text-2:    #C4B5C9;
+  --text-3:    #8F7A96;
+
+  /* Signature gradient — used selectively, never on every heading */
+  --grad: linear-gradient(90deg, var(--pink) 0%, var(--magenta) 52%, var(--lavender) 100%);
+
+  /* Glow scale — accent only */
+  --glow-sm:  0 4px 18px rgba(255, 45, 170, 0.18);
+  --glow-md:  0 10px 34px rgba(255, 45, 170, 0.22);
+  --glow-lg:  0 18px 54px rgba(255, 45, 170, 0.26);
+
+  /* Motion */
+  --ease: cubic-bezier(0.21, 0.47, 0.32, 0.98);
+}
+
 @layer base {
   *, *::before, *::after { box-sizing: border-box; }
-  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
   body {
-    background-color: #030712;
-    color: #f1f5f9;
+    background-color: var(--void);
+    color: var(--text);
     font-family: 'Inter', sans-serif;
     overflow-x: hidden;
   }
+
+  /* Ambient page lighting — deliberately near-invisible.
+     First impression should read "deep dark purple", not "neon". */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 70% 50% at 18% 0%,   rgba(255, 45, 170, 0.075) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 45% at 88% 12%,  rgba(217, 70, 239, 0.055) 0%, transparent 62%),
+      radial-gradient(ellipse 75% 55% at 50% 100%, rgba(192, 132, 252, 0.045) 0%, transparent 65%);
+  }
+
   ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: #030712; }
-  ::-webkit-scrollbar-thumb { background: #818cf8; border-radius: 4px; }
-  ::selection { background: rgba(129,140,248,0.3); color: #fff; }
+  ::-webkit-scrollbar-track { background: var(--void); }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, var(--pink), var(--magenta));
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--neon); }
+
+  ::selection { background: rgba(255, 45, 170, 0.28); color: var(--text); }
+
+  /* Keyboard focus stays visible and on-palette */
+  :focus-visible {
+    outline: 2px solid var(--neon);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
 }
 
 @layer components {
+  /* ── Typography ───────────────────────────────────────────── */
+
+  /* Signature gradient text — reserved for hero keywords,
+     section highlight words and the wordmark. */
   .grad-text {
-    background: linear-gradient(to right, #818cf8 0%, #a78bfa 30%, #38bdf8 60%, #a78bfa 80%, #818cf8 100%);
-    background-size: 200% 100%;
+    background: linear-gradient(
+      90deg,
+      #FF2DAA 0%, #D946EF 26%, #C084FC 50%, #D946EF 74%, #FF2DAA 100%
+    );
+    background-size: 220% 100%;
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: shimmer 5s linear infinite;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: shimmer 6s linear infinite;
   }
-  .glass {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.06);
-    backdrop-filter: blur(16px);
+
+  /* Non-animated variant for small text where movement would be noise */
+  .grad-text-static {
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
   }
+
+  /* ── Surfaces ─────────────────────────────────────────────── */
+
+  /* The single card language for the whole site. Cards never glow at
+     rest — hover states (pink border + lift + restrained glow) are
+     applied per-component via framer-motion, so only `transition-colors`
+     lives here to avoid double-easing motion's inline styles. */
   .card {
-    @apply glass rounded-2xl transition-all duration-300;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    @apply rounded-2xl transition-colors duration-300;
   }
-  .card-hover {
-    @apply card hover:border-indigo-400/25 hover:bg-white/[0.05] hover:-translate-y-1;
+
+  /* ── Buttons ──────────────────────────────────────────────── */
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 font-semibold text-[0.875rem]
+           rounded-xl px-6 py-2.5 transition-all duration-200 select-none;
   }
+
+  .btn-primary {
+    @apply btn text-ink;
+    background: var(--pink);
+    box-shadow: 0 4px 20px rgba(255, 45, 170, 0.26);
+  }
+  .btn-primary:hover {
+    background: var(--neon);
+    box-shadow: 0 8px 30px rgba(255, 45, 170, 0.40);
+  }
+
+  .btn-ghost {
+    @apply btn text-softpink;
+    background: rgba(33, 17, 38, 0.5);
+    border: 1px solid var(--line-2);
+    backdrop-filter: blur(8px);
+  }
+  .btn-ghost:hover {
+    border-color: rgba(255, 45, 170, 0.55);
+    color: var(--text);
+    box-shadow: 0 6px 24px rgba(255, 45, 170, 0.16);
+  }
+
+  /* ── Chips / tags / labels ────────────────────────────────── */
+
+  /* Section eyebrow — e.g. "// projects.showcase" */
+  .section-tag {
+    @apply font-mono text-xs px-3 py-1 rounded-md tracking-[0.1em] inline-block mb-3;
+    color: var(--soft-pink);
+    background: rgba(255, 45, 170, 0.07);
+    border: 1px solid rgba(255, 45, 170, 0.20);
+  }
+
+  /* Default tech chip (lavender — the quiet workhorse) */
+  .chip {
+    @apply text-[11px] font-semibold px-2 py-0.5 rounded-md transition-colors duration-200;
+    color: var(--lavender);
+    background: rgba(192, 132, 252, 0.08);
+    border: 1px solid rgba(192, 132, 252, 0.20);
+  }
+  .chip:hover {
+    color: var(--neon);
+    border-color: rgba(255, 79, 195, 0.42);
+    background: rgba(255, 45, 170, 0.08);
+  }
+
+  /* Project tag (pink — projects are the headline act) */
+  .ptag {
+    @apply text-[11px] font-semibold px-2 py-0.5 rounded-md transition-colors duration-200;
+    color: var(--soft-pink);
+    background: rgba(255, 45, 170, 0.07);
+    border: 1px solid rgba(255, 45, 170, 0.18);
+  }
+  .ptag:hover {
+    color: var(--neon);
+    border-color: rgba(255, 45, 170, 0.45);
+  }
+
+  /* AI / system chip — the ONLY place cyan is allowed */
+  .chip-ai {
+    @apply text-[11px] font-semibold px-2 py-0.5 rounded-md transition-colors duration-200;
+    color: var(--cyber);
+    background: rgba(103, 232, 249, 0.06);
+    border: 1px solid rgba(103, 232, 249, 0.18);
+  }
+
+  /* Numeric index for project cards — 01 / 02 / 03 */
+  .index-num {
+    @apply font-mono font-bold tracking-tight;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  /* ── Background textures ──────────────────────────────────── */
+
   .dot-grid {
-    background-image: radial-gradient(rgba(129,140,248,0.055) 1px, transparent 1px);
+    background-image: radial-gradient(rgba(255, 45, 170, 0.07) 1px, transparent 1px);
     background-size: 28px 28px;
   }
-  /* Circuit-board style grid with crosshairs at intersections */
+
+  /* Fine grid with crosshair points at intersections */
   .circuit-grid {
     background-image:
-      linear-gradient(rgba(129,140,248,0.035) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(129,140,248,0.035) 1px, transparent 1px),
-      radial-gradient(rgba(129,140,248,0.08) 1px, transparent 1px);
-    background-size: 60px 60px, 60px 60px, 60px 60px;
-    background-position: -1px -1px, -1px -1px, 29px 29px;
+      linear-gradient(rgba(192, 132, 252, 0.038) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(192, 132, 252, 0.038) 1px, transparent 1px),
+      radial-gradient(rgba(255, 45, 170, 0.10) 1px, transparent 1px);
+    background-size: 62px 62px, 62px 62px, 62px 62px;
+    background-position: -1px -1px, -1px -1px, 30px 30px;
   }
-  .section-tag {
-    @apply font-mono text-xs text-sky-400 bg-sky-400/[0.07] border border-sky-400/[0.18] px-3 py-1 rounded tracking-[0.1em] inline-block mb-3;
+
+  /* ── Starfield ─────────────────────────────────────────────
+     Tiled radial-gradients: two parallax layers in ~2 elements
+     instead of hundreds of positioned dots. */
+  .starfield {
+    background-repeat: repeat;
+    background-size: 640px 640px;
+    background-image:
+      radial-gradient(1.4px 1.4px at 8% 14%,  rgba(255,247,252,0.85), transparent 100%),
+      radial-gradient(1px 1px    at 23% 62%,  rgba(249,168,212,0.70), transparent 100%),
+      radial-gradient(1.2px 1.2px at 37% 27%, rgba(255,247,252,0.60), transparent 100%),
+      radial-gradient(1px 1px    at 46% 79%,  rgba(192,132,252,0.65), transparent 100%),
+      radial-gradient(1.6px 1.6px at 58% 41%, rgba(255,247,252,0.80), transparent 100%),
+      radial-gradient(1px 1px    at 67% 12%,  rgba(255,79,195,0.60),  transparent 100%),
+      radial-gradient(1.1px 1.1px at 74% 88%, rgba(255,247,252,0.55), transparent 100%),
+      radial-gradient(1px 1px    at 86% 54%,  rgba(192,132,252,0.60), transparent 100%),
+      radial-gradient(1.3px 1.3px at 93% 31%, rgba(255,247,252,0.70), transparent 100%),
+      radial-gradient(1px 1px    at 16% 91%,  rgba(255,247,252,0.45), transparent 100%),
+      radial-gradient(1px 1px    at 52% 6%,   rgba(255,247,252,0.50), transparent 100%),
+      radial-gradient(1px 1px    at 79% 71%,  rgba(249,168,212,0.50), transparent 100%);
   }
-  .chip {
-    @apply text-[11px] font-semibold px-2 py-0.5 rounded bg-indigo-400/[0.08] border border-indigo-400/[0.18] text-indigo-300;
+
+  /* Sparser, brighter layer — twinkles and drifts at a different rate */
+  .starfield-near {
+    background-repeat: repeat;
+    background-size: 420px 420px;
+    background-image:
+      radial-gradient(1.8px 1.8px at 19% 33%, rgba(255,247,252,0.95), transparent 100%),
+      radial-gradient(2px 2px    at 61% 68%,  rgba(255,79,195,0.75),  transparent 100%),
+      radial-gradient(1.6px 1.6px at 84% 19%, rgba(255,247,252,0.85), transparent 100%),
+      radial-gradient(1.7px 1.7px at 34% 85%, rgba(192,132,252,0.70), transparent 100%),
+      radial-gradient(1.5px 1.5px at 71% 45%, rgba(103,232,249,0.55), transparent 100%);
   }
-  .ptag {
-    @apply text-[11px] font-semibold px-2 py-0.5 rounded bg-sky-400/[0.07] border border-sky-400/[0.16] text-sky-400;
+
+  /* Barely-there horizontal scanlines */
+  .scanlines {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      rgba(255, 247, 252, 0.018) 0px,
+      rgba(255, 247, 252, 0.018) 1px,
+      transparent 1px,
+      transparent 4px
+    );
   }
+
+  /* Hairline divider that fades out at both ends */
+  .hair-divider {
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(255, 45, 170, 0.28),
+      rgba(192, 132, 252, 0.16),
+      transparent
+    );
+  }
+
 }
 
 @layer utilities {
   .animation-delay-2 { animation-delay: 2s; }
   .animation-delay-4 { animation-delay: 4s; }
+
+  .text-balance { text-wrap: balance; }
+  .text-pretty  { text-wrap: pretty; }
+
+  /* Vertical fade mask for tickers / marquees */
+  .mask-x {
+    mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+  }
 }
 
-/* Noise grain overlay */
+/* Film-grain overlay — sits above everything, purely textural */
 body::after {
   content: '';
   position: fixed;
   inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.032;
+  opacity: 0.03;
   pointer-events: none;
   z-index: 9999;
+}
+
+/* ── Mobile: keep the pink energy from overpowering small screens ── */
+@media (max-width: 640px) {
+  body::before {
+    background:
+      radial-gradient(ellipse 90% 40% at 20% 0%,   rgba(255, 45, 170, 0.055) 0%, transparent 62%),
+      radial-gradient(ellipse 80% 40% at 85% 100%, rgba(192, 132, 252, 0.035) 0%, transparent 65%);
+  }
+  body::after { opacity: 0.022; }
+}
+
+/* ── Respect reduced-motion preferences ── */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .grad-text { animation: none; }
 }
