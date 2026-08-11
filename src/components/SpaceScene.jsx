@@ -75,8 +75,9 @@ export function Planet({
           height: size * glowScale,
           left: `${-(size * (glowScale - 1)) / 2}px`,
           top: `${-(size * (glowScale - 1)) / 2}px`,
+          /* No blur filter here — the gradient is already soft, and a filtered
+             layer inside a transform-animated parent is needless raster work. */
           background: `radial-gradient(circle, ${t.glow} 0%, transparent 62%)`,
-          filter: 'blur(2px)',
         }}
       />
 
@@ -97,8 +98,10 @@ export function Planet({
       >
         {/* Cloud/surface banding */}
         {bands && (
+          /* Plain low-opacity overlay rather than mix-blend-mode: blend modes
+             force an expensive extra compositing pass on every paint. */
           <div
-            className="absolute inset-0 opacity-[0.22] mix-blend-soft-light"
+            className="absolute inset-0 opacity-[0.14]"
             style={{
               background: `repeating-linear-gradient(
                 168deg,
@@ -112,22 +115,21 @@ export function Planet({
         )}
 
         {/* Two soft surface features — keeps large planets from looking like a gradient swatch */}
+        {/* Softness comes from the gradient falloff rather than a blur filter */}
         <div
-          className="absolute rounded-full opacity-[0.30]"
+          className="absolute rounded-full opacity-[0.34]"
           style={{
             width: size * 0.34, height: size * 0.22,
             left: size * 0.44, top: size * 0.53,
-            background: `radial-gradient(circle, ${t.edge} 0%, transparent 70%)`,
-            filter: `blur(${size * 0.02}px)`,
+            background: `radial-gradient(closest-side, ${t.edge} 0%, ${t.edge}88 42%, transparent 78%)`,
           }}
         />
         <div
-          className="absolute rounded-full opacity-[0.22]"
+          className="absolute rounded-full opacity-[0.26]"
           style={{
             width: size * 0.2, height: size * 0.14,
             left: size * 0.18, top: size * 0.24,
-            background: `radial-gradient(circle, ${t.lit} 0%, transparent 72%)`,
-            filter: `blur(${size * 0.018}px)`,
+            background: `radial-gradient(closest-side, ${t.lit} 0%, ${t.lit}77 45%, transparent 80%)`,
           }}
         />
       </div>

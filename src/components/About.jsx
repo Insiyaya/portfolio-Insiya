@@ -48,9 +48,7 @@ function SlidePara({ children, delay = 0 }) {
   return (
     <motion.p
       ref={ref}
-      animate={inView
-        ? { opacity: 1, x: 0, filter: 'blur(0px)' }
-        : { opacity: 0, x: 28, filter: 'blur(4px)' }}
+      animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: 26 }}
       transition={{ duration: 0.72, delay: inView ? delay : 0, ease }}
       className="text-dim text-[0.9rem] leading-[1.85]"
     >

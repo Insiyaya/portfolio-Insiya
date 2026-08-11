@@ -50,6 +50,9 @@
 
   html {
     scroll-behavior: smooth;
+    /* Anchor targets stop clear of the fixed navbar instead of landing
+       underneath it. */
+    scroll-padding-top: 5.5rem;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -59,7 +62,13 @@
     color: var(--text);
     font-family: 'Inter', sans-serif;
     overflow-x: hidden;
+    /* Don't hand a stuck scroll off to the browser chrome / parent */
+    overscroll-behavior-y: none;
   }
+
+  /* NB: deliberately no `contain`/`content-visibility` on sections. Both clip
+     like overflow:hidden, which breaks the md:sticky sidebars in About,
+     Experience and Projects. */
 
   /* Ambient page lighting — deliberately near-invisible.
      First impression should read "deep dark purple", not "neon". */
@@ -290,9 +299,6 @@
 }
 
 @layer utilities {
-  .animation-delay-2 { animation-delay: 2s; }
-  .animation-delay-4 { animation-delay: 4s; }
-
   .text-balance { text-wrap: balance; }
   .text-pretty  { text-wrap: pretty; }
 

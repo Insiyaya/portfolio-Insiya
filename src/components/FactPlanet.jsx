@@ -121,10 +121,12 @@ export default function FactPlanet() {
             }}
           >
             {/* Axial tilt on the wrapper, so the stripe layer itself can scroll
-                on a clean horizontal axis and tile seamlessly. */}
-            <div className="absolute inset-0" style={{ transform: 'rotate(-8deg) scale(1.4)' }}>
+                on a clean horizontal axis and tile seamlessly. The stripes move
+                by `transform` (compositor-only) rather than background-position,
+                which would repaint the sphere every frame. */}
+            <div className="absolute inset-0 overflow-hidden" style={{ transform: 'rotate(-8deg) scale(1.4)' }}>
               <div
-                className={`absolute inset-0 opacity-[0.20] mix-blend-soft-light ${reduced ? '' : 'animate-surface'}`}
+                className={`absolute inset-y-0 -left-[13px] right-0 opacity-[0.16] ${reduced ? '' : 'animate-surface'}`}
                 style={{
                   backgroundImage: `repeating-linear-gradient(
                     90deg,
@@ -133,6 +135,7 @@ export default function FactPlanet() {
                     transparent 3px,
                     transparent 13px
                   )`,
+                  willChange: 'transform',
                 }}
               />
             </div>

@@ -80,45 +80,36 @@ export default {
         'grad-brand':  'linear-gradient(90deg, #FF2DAA 0%, #D946EF 52%, #C084FC 100%)',
         'grad-brand-d':'linear-gradient(135deg, #FF2DAA 0%, #D946EF 55%, #C084FC 100%)',
       },
+      /* Only compositor-friendly properties (transform / opacity) are animated
+         here, so ambient motion stays off the main thread while scrolling.
+         `shimmer` is the one exception and is applied to text backgrounds only. */
       animation: {
-        blob:        'blob 9s ease-in-out infinite',
-        blob2:       'blob2 11s ease-in-out infinite',
-        blob3:       'blob3 13s ease-in-out infinite',
         shimmer:     'shimmer 6s linear infinite',
-        floatY:      'floatY 2.5s ease-in-out infinite',
         'spin-slow': 'spin 14s linear infinite',
         blink:       'blink 1.1s step-end infinite',
         'pulse-dot': 'pulseDot 2.4s ease-in-out infinite',
-        scan:        'scan 7s linear infinite',
-        'drift-x':   'driftX 9s ease-in-out infinite',
         /* ── Planetary motion — slow enough to feel like orbit, not spin ── */
         orbit:       'orbit 28s linear infinite',
-        'orbit-slow':'orbit 52s linear infinite',
         twinkle:     'twinkle 5.5s ease-in-out infinite',
         'planet-drift': 'planetDrift 22s ease-in-out infinite',
         surface:     'surface 14s linear infinite',
       },
       keyframes: {
-        blob:    { '0%,100%':{ transform:'translate(0,0) scale(1)' }, '33%':{ transform:'translate(28px,-45px) scale(1.08)' }, '66%':{ transform:'translate(-18px,22px) scale(0.94)' } },
-        blob2:   { '0%,100%':{ transform:'translate(0,0) scale(1)' }, '33%':{ transform:'translate(-30px,40px) scale(1.12)' }, '66%':{ transform:'translate(36px,-18px) scale(0.88)' } },
-        blob3:   { '0%,100%':{ transform:'translate(0,0) scale(1)' }, '33%':{ transform:'translate(22px,28px) scale(0.92)' }, '66%':{ transform:'translate(-28px,-36px) scale(1.06)' } },
         shimmer: { '0%':{ backgroundPosition:'200% 0' }, '100%':{ backgroundPosition:'-200% 0' } },
-        floatY:  { '0%,100%':{ transform:'translateY(0)' }, '50%':{ transform:'translateY(8px)' } },
         blink:   { '0%,100%':{ opacity:1 }, '50%':{ opacity:0 } },
         pulseDot:{ '0%,100%':{ opacity:1, transform:'scale(1)' }, '50%':{ opacity:0.45, transform:'scale(0.82)' } },
-        scan:    { '0%':{ transform:'translateY(-100%)' }, '100%':{ transform:'translateY(100%)' } },
-        driftX:  { '0%,100%':{ transform:'translateX(0)' }, '50%':{ transform:'translateX(10px)' } },
         orbit:   { '0%':{ transform:'rotate(0deg)' }, '100%':{ transform:'rotate(360deg)' } },
         twinkle: { '0%,100%':{ opacity:'0.35' }, '50%':{ opacity:'0.9' } },
         planetDrift: {
           '0%,100%': { transform:'translate3d(0,0,0)' },
           '50%':     { transform:'translate3d(-14px,18px,0)' },
         },
-        /* Scrolls a planet's longitude stripes by exactly one 13px period,
-           so the surface appears to rotate with no visible seam. */
+        /* Scrolls a planet's longitude stripes by exactly one 13px period, so
+           the surface appears to rotate with no visible seam. Uses transform
+           rather than background-position to stay on the compositor. */
         surface: {
-          '0%':   { backgroundPosition:'0 0' },
-          '100%': { backgroundPosition:'13px 0' },
+          '0%':   { transform:'translate3d(0,0,0)' },
+          '100%': { transform:'translate3d(13px,0,0)' },
         },
       },
     },

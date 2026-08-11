@@ -11,17 +11,44 @@ export default function Navbar() {
   const [open,     setOpen]     = useState(false)
   const [active,   setActive]   = useState('')
 
+  /* Shrink-on-scroll. rAF-coalesced and state is only written when the
+     boolean actually flips, so scrolling costs at most one cheap read. */
   useEffect(() => {
+    let frame = 0
     const onScroll = () => {
-      setScrolled(window.scrollY > 55)
-      let cur = ''
-      document.querySelectorAll('section[id]').forEach(s => {
-        if (window.scrollY >= s.offsetTop - 220) cur = s.id
+      if (frame) return
+      frame = requestAnimationFrame(() => {
+        frame = 0
+        setScrolled(window.scrollY > 55)
       })
-      setActive(cur)
     }
+    onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      if (frame) cancelAnimationFrame(frame)
+    }
+  }, [])
+
+  /* Active section via IntersectionObserver instead of measuring every
+     section's offsetTop on each scroll event — that forced a synchronous
+     layout per tick, which is the main cause of scroll stutter. */
+  useEffect(() => {
+    const sections = Array.from(document.querySelectorAll('section[id]'))
+    if (!sections.length) return
+
+    const io = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) setActive(entry.target.id)
+        })
+      },
+      /* Only the section crossing the viewport's middle band counts */
+      { rootMargin: '-45% 0px -45% 0px', threshold: 0 }
+    )
+
+    sections.forEach(s => io.observe(s))
+    return () => io.disconnect()
   }, [])
 
   return (
@@ -32,7 +59,10 @@ export default function Navbar() {
         transition={{ duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
-            ? 'bg-void/80 backdrop-blur-2xl border-b border-line py-2.5'
+            /* blur-md rather than blur-2xl: backdrop-filter is re-sampled as the
+               page moves underneath, and a large radius on a full-width bar is
+               one of the costlier things you can do during a scroll. */
+            ? 'bg-void/90 backdrop-blur-md border-b border-line py-2.5'
             : 'py-4'
         }`}
       >

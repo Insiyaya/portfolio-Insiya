@@ -19,11 +19,18 @@ export default function ParticleNetwork() {
     let mouse = { x: -9999, y: -9999 }
     let W, H
 
-    /* Fewer nodes on small screens — cheaper and far less busy */
+    /* Fewer nodes on small screens — cheaper and far less busy.
+       Counts are kept modest because the neighbour pass is O(n²) per frame. */
     const isSmall    = window.innerWidth < 768
-    const COUNT      = isSmall ? 26 : 52
+    const COUNT      = isSmall ? 18 : 34
     const MAX_DIST   = isSmall ? 105 : 130
     const MOUSE_DIST = 170
+
+    /* Cap the field at ~30fps. It's ambient texture — it does not need a
+       frame budget slice 60 times a second, and halving its rate leaves
+       significantly more headroom for scrolling. */
+    const FRAME_MS = 1000 / 30
+    let last = 0
 
     const resize = () => {
       W = canvas.width  = window.innerWidth
@@ -45,7 +52,14 @@ export default function ParticleNetwork() {
       lav: Math.random() > 0.72,
     }))
 
-    const draw = () => {
+    const draw = now => {
+      animId = requestAnimationFrame(draw)
+
+      /* Throttle to the target rate, and idle entirely in a background tab */
+      if (document.hidden) return
+      if (now - last < FRAME_MS) return
+      last = now
+
       ctx.clearRect(0, 0, W, H)
 
       for (const p of particles) {
@@ -97,10 +111,8 @@ export default function ParticleNetwork() {
           ctx.fill()
         }
       }
-
-      animId = requestAnimationFrame(draw)
     }
-    draw()
+    animId = requestAnimationFrame(draw)
 
     return () => {
       cancelAnimationFrame(animId)

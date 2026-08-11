@@ -11,17 +11,21 @@ export const GLOW = {
   cyber:    'rgba(103,232,249,0.10)',
 }
 
-/* Scroll-triggered entrance: blur → focus, slide up, fade in — REVERSES on scroll out */
+/* Scroll-triggered entrance: slide up + fade in — REVERSES on scroll out.
+ *
+ * Deliberately limited to opacity and transform, which the compositor can
+ * handle off the main thread. The earlier version also animated
+ * `filter: blur()`, which forces a repaint of the whole subtree on every
+ * frame — with a reveal on nearly every block, that was a major source of
+ * scroll stutter. */
 export function ScrollReveal({ children, delay = 0, className = '' }) {
   const ref = useRef(null)
   const inView = useInView(ref, { margin: '-80px' })
   return (
     <motion.div
       ref={ref}
-      animate={inView
-        ? { opacity: 1, y: 0, filter: 'blur(0px)' }
-        : { opacity: 0, y: 32, filter: 'blur(6px)' }}
-      transition={{ duration: 0.75, delay: inView ? delay : 0, ease }}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+      transition={{ duration: 0.7, delay: inView ? delay : 0, ease }}
       className={className}
     >
       {children}

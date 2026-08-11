@@ -76,8 +76,8 @@ const CODE = [
 function CodeTerminal() {
   return (
     <motion.div
-      initial={{ opacity: 0, x: 50, filter: 'blur(10px)' }}
-      animate={{ opacity: 0.62, x: 0, filter: 'blur(0px)' }}
+      initial={{ opacity: 0, x: 50 }}
+      animate={{ opacity: 0.62, x: 0 }}
       transition={{ duration: 1.4, delay: 1.8, ease: EASE }}
       className="hidden lg:block absolute right-[3%] top-[15%] w-[292px] z-[2] pointer-events-none select-none"
     >
@@ -215,12 +215,22 @@ export default function Hero() {
       {/* Barely-visible scanline texture */}
       <div className="absolute inset-0 scanlines opacity-60" />
 
-      {/* Atmospheric pink glow — parallax, deliberately soft */}
-      <motion.div className="absolute inset-0 pointer-events-none" style={{ y: blobY }}>
-        <div className="absolute top-[18%] left-[18%] w-[520px] h-[520px] rounded-full blur-[130px] bg-hotpink/[0.14] animate-blob" />
-        <div className="absolute top-[30%] right-[16%] w-[430px] h-[430px] rounded-full blur-[120px] bg-magenta/[0.11] animate-blob2 animation-delay-2" />
-        <div className="absolute bottom-[14%] left-[44%] w-[380px] h-[380px] rounded-full blur-[110px] bg-lavender/[0.09] animate-blob3 animation-delay-4" />
-      </motion.div>
+      {/* Atmospheric glow. Rendered as static radial gradients on one layer:
+          the previous version animated transforms on three 500px-wide elements
+          carrying 110-130px blur filters, which the compositor had to
+          re-rasterise continuously and competed with scrolling. The planets and
+          starfield already supply the motion here. */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          y: blobY,
+          background: `
+            radial-gradient(38% 34% at 26% 32%, rgba(255,45,170,0.15) 0%, transparent 70%),
+            radial-gradient(32% 30% at 80% 38%, rgba(217,70,239,0.12) 0%, transparent 72%),
+            radial-gradient(30% 28% at 52% 86%, rgba(192,132,252,0.10) 0%, transparent 74%)
+          `,
+        }}
+      />
 
       {/* Planetary scene — starfield, worlds, orbiting moon, planet horizon */}
       <motion.div
