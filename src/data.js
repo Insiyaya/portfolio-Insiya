@@ -1,5 +1,7 @@
 export const LINKS = {
   github:   'https://github.com/Insiyaya',
+  twofolds: 'https://twofolds.shop/',
+  ruby:     'https://www.rubycrm.ai/',
   linkedin: 'https://www.linkedin.com/in/insiya-husain-89b501259/',
   email:    'https://mail.google.com/mail/?view=cm&to=insiyaahusainn@gmail.com',
 }
@@ -81,10 +83,19 @@ export const SKILLS = [
    (certifications, experience, education, GitHub) — no new claims. */
 export const RECRUITER_FACTS = [
   {
+    key:   'founder',
+    icon:  'FaStore',
+    value: 'Twofolds',
+    sub:   'Premium tees with a custom print studio',
+    href:  'https://twofolds.shop/',
+    tone:  'lavender',
+  },
+  {
     key:   'currently',
     icon:  'FaBriefcase',
-    value: 'Software Engineer @ Consultadd',
-    sub:   'Production agentic AI since Jan 2025',
+    value: 'Product Engineer at Ruby CRM',
+    sub:   'Agentic AI CRM for UAE real estate',
+    href:  'https://www.rubycrm.ai/',
     tone:  'pink',
   },
   {
@@ -95,7 +106,7 @@ export const RECRUITER_FACTS = [
     tone:  'pink',
   },
   {
-    key:   'ai specialism',
+    key:   'AI specialism',
     icon:  'FaRobot',
     value: 'LangChain agent pipelines',
     sub:   'FastAPI · AWS · DynamoDB at scale',
@@ -126,26 +137,54 @@ export const RECRUITER_FACTS = [
 
 export const EXPERIENCE = [
   {
-    company: 'Consultadd Inc.',
-    role:    'Software Engineer',
-    period:  'Jan 2025 – Present',
+    id:      'twofolds',
+    company: 'Twofolds',
+    href:    'https://twofolds.shop/',
+    role:    'Founder',
     current: true,
     points: [
-      'Engineered an AI agent with a custom prompt engineering layer, improving conversation coherence and response accuracy across multi-turn dialogues',
-      'Designed and deployed FastAPI microservices orchestrating end-to-end agentic AI workflows, from intent parsing to tool execution, handling concurrent requests at scale',
-      'Architected DynamoDB-backed data pipelines on AWS for low-latency storage and retrieval, reducing average query response time and enabling real-time agent decision-making',
+      'Started a premium tee brand from zero: heavyweight blanks, water-based prints, closed runs.',
+      'Took it online with tees, hoodies, a couples collection and bulk orders.',
+      'Added a custom studio where people upload their own artwork and wear it.',
+    ],
+    tags: ['Brand', 'E-Commerce', 'Next.js'],
+  },
+  {
+    id:      'rubycrm',
+    company: 'Ruby CRM',
+    href:    'https://www.rubycrm.ai/',
+    role:    'Product Engineer',
+    current: true,
+    points: [
+      'Work on an agentic AI CRM for Dubai and UAE real estate: leads, WhatsApp, AI follow-ups, and one-click listings on Bayut, Property Finder, Dubizzle and Skyloov.',
+      'Track down bugs and fix them at the root, so agents can rely on the product through a busy day.',
+      'Turn user problems into product improvements, from first report to release.',
+    ],
+    tags: ['Product Engineering', 'Agentic AI', 'CRM', 'Real Estate Tech'],
+  },
+  {
+    id:      'consultadd',
+    company: 'Consultadd Inc.',
+    role:    'Software Engineer',
+    period:  'Joined Jan 2025',
+    current: false,
+    points: [
+      'Built an AI agent that keeps its train of thought. A custom prompt layer made long conversations more coherent and answers more accurate.',
+      'Shipped the FastAPI microservices behind it, carrying each request from intent to tool call to reply for many users at once.',
+      'Designed DynamoDB pipelines on AWS that cut average query time, so agents can decide in real time.',
     ],
     tags: ['FastAPI', 'AWS', 'DynamoDB', 'Agentic AI', 'LangChain', 'Python'],
   },
   {
+    id:      'walkover',
     company: 'Walkover',
     role:    'Software Engineer Intern',
     period:  'Apr 2024 – Dec 2024',
     current: false,
     points: [
-      'Developed and shipped plugin integrations across multiple third-party APIs, enabling seamless data exchange and expanding platform connectivity for end users',
-      'Identified, triaged, and resolved critical production bugs ahead of release deadlines, directly improving application reliability and user experience',
-      'Drove end-to-end QA and integration testing workflows, establishing repeatable test patterns that reduced regression rates across subsequent releases',
+      'Shipped plugins that connect the platform to multiple third-party APIs, so data moves between tools without friction.',
+      'Tracked down critical production bugs ahead of release deadlines and made the app steadier for the people using it.',
+      'Set up repeatable QA and integration tests that lowered regressions release after release.',
     ],
     tags: ['API Integration', 'Plugin Dev', 'Python', 'QA & Testing'],
   },
@@ -156,7 +195,26 @@ export const EXPERIENCE = [
    of each project's existing description — no new claims. */
 export const PROJECTS = [
   {
+    id:       'twofolds',
+    shot:     '/projects/twofolds.webp',
+    featured: true,
+    title:    'Twofolds',
+    kind:     'Founder, Premium Tee Brand',
+    desc:     'The premium tee brand I founded: heavyweight blanks, water-based prints and closed runs. The store sells tees and hoodies in oversized and minimal cuts, with a couples collection, bulk orders, and a custom studio where customers upload their own artwork.',
+    outcome:  'Live store with its own collections, custom studio and bulk ordering.',
+    highlights: [
+      'Custom studio that prints customers’ own artwork',
+      'Every tee and hoodie available in two cuts, chosen at checkout',
+      'Couples collection and bulk orders alongside the main range',
+    ],
+    tags:     ['Next.js', 'E-Commerce', 'Brand'],
+    github:   null,
+    live:     'https://twofolds.shop/',
+    accent:   '#a488ff',
+  },
+  {
     id:       'tripcraft',
+    shot:     '/projects/tripcraft.webp',
     featured: true,
     title:    'TripCraft AI',
     kind:     'AI Agent Platform',
@@ -177,25 +235,36 @@ export const PROJECTS = [
     preview:  'https://tripcraft-ai-three.vercel.app/',
   },
   {
-    id:       'ai-agent',
+    id:       'beehive',
+    shot:     '/projects/beehive.webp',
     featured: true,
-    title:    'AI-Powered E-Commerce Agent',
-    kind:     'Agentic Commerce Backend',
+    title:    'Bee Hive',
+    kind:     'Multi-Seller Marketplace',
     ai:       true,
-    status:   'wip',
-    desc:     'Full-stack AI vendor platform enabling small entrepreneurs to register, manage storefronts, and scale sales. Features LangChain-driven onboarding automation, intelligent customer engagement agents, and a FastAPI backend deployed on AWS with DynamoDB for real-time inventory and order management.',
+    desc:     'Online marketplace where independent stores sell fashion, religious wear and accessories. Sellers bring their catalogue, answer a few questions and start selling once approved. Features LangChain-driven onboarding automation, intelligent customer engagement agents, and a FastAPI backend deployed on AWS with DynamoDB for real-time inventory and order management.',
     problem:  'Small vendors need a storefront, an onboarding flow and a support team before they can sell anything online.',
-    outcome:  'In active development — onboarding and customer engagement handled by LangChain agents.',
+    outcome:  'Live marketplace where each store uploads its catalogue and sets its own delivery, returns and offers.',
     highlights: [
       'LangChain-driven onboarding automation for vendor registration',
       'Customer engagement agents handling storefront conversations',
-      'FastAPI services on AWS with DynamoDB for live inventory & orders',
+      'FastAPI services on AWS with DynamoDB for live inventory and orders',
     ],
-    tags:     ['Python', 'FastAPI', 'LangChain', 'Agentic AI', 'AWS', 'DynamoDB'],
-    aiTags:   ['AGENT PIPELINE', 'TOOL USE'],
+    tags:     ['Next.js', 'Python', 'FastAPI', 'LangChain', 'Agentic AI', 'AWS', 'DynamoDB'],
     github:   null,
-    live:     null,
-    accent:   '#D946EF',
+    live:     'https://itsbeehive.shop/',
+    accent:   '#ffb31a',
+  },
+  {
+    id:       'biscuit',
+    shot:     '/projects/biscuit.webp',
+    title:    'Biscuit Consultant',
+    kind:     'Business Website',
+    desc:     'Website for a global biscuit manufacturing consultancy with 35+ years of expertise. It covers new plant setup, production optimisation and specialised consultancy, alongside a blog and an industry jobs section.',
+    outcome:  'Live site that takes investors and manufacturers from services to a consultation request.',
+    tags:     ['React', 'Business Website'],
+    github:   null,
+    live:     'https://biscuitconsultant.com/',
+    accent:   '#e8b07a',
   },
   {
     id:      'roboshots',
@@ -306,4 +375,38 @@ export const EDUCATION = [
   { year: '2021 – 2025', degree: 'B.E. in Engineering',  institution: 'IET DAVV, Indore', score: 'GPA: 8.8 / 10.0' },
   { year: '2021',        degree: 'Class 12th, C.B.S.E',  institution: 'Central Board of Secondary Education', score: '91%' },
   { year: '2019',        degree: 'Class 10th, C.B.S.E',  institution: 'Central Board of Secondary Education', score: '95%' },
+]
+
+export const EMAIL = 'insiyaahusainn@gmail.com'
+
+export const ABOUT = {
+  lead: 'I’m Insiya, a full stack and AI engineer. I’m a Product Engineer at Ruby CRM, an agentic AI CRM for real estate, and the founder of Twofolds.',
+  body: [
+    'Most engineers solve the problem in front of them. I look for the pattern behind it: between the prompt and the model, the agent and its tools, the backend and the person tapping a screen.',
+    'I’ve built production AI agents, the FastAPI services they run on and the DynamoDB pipelines that feed them. Improvements I shipped along the way drove 30-50% growth in client engagement.',
+    'I also love Flutter: one codebase, every platform, every pixel in place. And I’m going deep into machine learning, because the systems I want to build next won’t just respond. They’ll learn and adapt.',
+  ],
+}
+
+export const SERVICES = [
+  { title: 'AI agent development',    desc: 'End-to-end agentic AI systems, LLM orchestration, prompt engineering, and tool-use workflows' },
+  { title: 'Backend engineering',     desc: 'High-throughput APIs and microservices with FastAPI, Django, and event-driven architectures' },
+  { title: 'Mobile and cross-platform', desc: 'Production Flutter apps shipping to Android, iOS, Web, and Desktop from a single codebase' },
+  { title: 'Cloud and infrastructure', desc: 'AWS-native deployments with DynamoDB, Lambda, Docker, Terraform, and CI/CD automation' },
+]
+
+export const OPEN_SOURCE = {
+  repos: '40+ public repositories',
+  achievements: ['Pull Shark ×2', 'Quickdraw', 'Pair Extraordinaire'],
+}
+
+/* Rotating subtitles in the skills scene. */
+export const QUOTES = [
+  'It worked on my machine. So I shipped my machine.',
+  'My AI agent has every tool. It still asks me where things are.',
+  'The cloud is just someone else’s computer with a bigger bill.',
+  'Prompt engineering: asking nicely until it works.',
+  'That’s not a bug. That’s a feature with confidence.',
+  'Two things are hard in tech: naming, caching and off-by-one errors.',
+  'I’d tell you a UDP joke, but you might not get it.',
 ]

@@ -1,18 +1,99 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-loading="true">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Insiya Husain — Full Stack Engineer &amp; AI Engineer · AI Agents · Backend · Flutter · Cloud" />
-    <meta name="theme-color" content="#0D0812" />
+    <meta name="description" content="INSIYA HUSAIN, full stack and AI engineer. Founder of Twofolds and Product Engineer at Ruby CRM." />
+    <meta property="og:title" content="INSIYA HUSAIN, full stack and AI engineer" />
+    <meta property="og:description" content="Founder of Twofolds and Product Engineer at Ruby CRM. AI agents, the services behind them and the apps in front of them." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://insiyahusain.me/" />
+    <meta property="og:image" content="https://insiyahusain.me/og.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="canonical" href="https://insiyahusain.me/" />
+    <meta name="theme-color" content="#000000" />
     <meta name="color-scheme" content="dark" />
-    <title>Insiya Husain — Full Stack &amp; AI Engineer</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <title>INSIYA HUSAIN, full stack and AI engineer</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14'/%3E%3Ccircle cx='32' cy='32' r='16' fill='%23a488ff'/%3E%3Cellipse cx='32' cy='34' rx='27' ry='7' fill='none' stroke='%23ff2da0' stroke-width='5' transform='rotate(-14 32 34)'/%3E%3C/svg%3E" />
+    <style>
+      /* Loader: inlined so the first paint is the hopping mascot, not a blank page. */
+      html { background: #000; }
+      html[data-loading='true'] { overflow: hidden; }
+      #loader { position: fixed; inset: 0; z-index: 100; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #000; }
+      #loader .hop { width: 136px; height: 136px; transform-origin: 50% 92%; will-change: transform; animation: hop 1s ease-in-out infinite; }
+      #loader .hop svg { display: block; width: 100%; height: 100%; overflow: visible; }
+      #loader .shade { width: 74px; height: 10px; margin-top: 6px; border-radius: 50%; background: rgba(184, 164, 255, 0.24); will-change: transform; animation: shade 1s ease-in-out infinite; }
+      #loader .drop { display: flex; flex-direction: column; align-items: center; }
+      #loader[data-state='bang'] { background: none; pointer-events: none; }
+      #loader[data-state='bang'] .hop, #loader[data-state='bang'] .shade { animation: none; }
+      #loader[data-state='bang'] .shade { opacity: 0; }
+      #loader[data-state='bang'] .drop { transform: translateY(26vh) scale(0.3); opacity: 0; transition: opacity 0.22s linear 0.1s; }
+      #loader[data-state='done'] { display: none; }
+      @keyframes hop {
+        0%, 100% { transform: none; }
+        15% { transform: scale(1.09, 0.89); }
+        45% { transform: translateY(-36px) scale(0.95, 1.06); }
+        75% { transform: none; }
+        86% { transform: scale(1.07, 0.92); }
+      }
+      @keyframes shade {
+        0%, 75%, 100% { transform: none; opacity: 1; }
+        45% { transform: scale(0.58); opacity: 0.45; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #loader .hop, #loader .shade { animation: none; }
+      }
+    </style>
   </head>
   <body>
+    <div id="loader" role="status" aria-label="Loading">
+      <div class="drop">
+        <div class="hop">
+          <svg viewBox="0 0 136 136" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <!-- ring, far side -->
+            <g transform="rotate(12 68 82)">
+              <path d="M10 82a58 15 0 0 1 116 0" stroke="#b8a4ff" stroke-width="11" />
+              <path d="M10 82a58 15 0 0 1 116 0" stroke="#000" stroke-width="6" />
+            </g>
+            <!-- feet -->
+            <g fill="#000" stroke="#b8a4ff" stroke-width="2.6">
+              <rect x="47" y="112" width="17" height="14" rx="7" />
+              <rect x="72" y="112" width="17" height="14" rx="7" />
+            </g>
+            <!-- antenna -->
+            <path d="M70 46c1-12 6-20 15-25" stroke="#b8a4ff" stroke-width="8" />
+            <path d="M70 46c1-12 6-20 15-25" stroke="#000" stroke-width="3.4" />
+            <circle cx="89" cy="18" r="7.5" fill="#000" stroke="#b8a4ff" stroke-width="2.6" />
+            <!-- body -->
+            <path d="M68 41c24 0 37 14 37 37s-13 37-37 37-37-14-37-37 13-37 37-37Z" fill="#000" stroke="#b8a4ff" stroke-width="2.6" />
+            <ellipse cx="57" cy="67" rx="4.2" ry="6.6" fill="#b8a4ff" />
+            <ellipse cx="77" cy="67" rx="4.2" ry="6.6" fill="#b8a4ff" />
+            <!-- ring, near side -->
+            <g transform="rotate(12 68 82)">
+              <path d="M10 82a58 15 0 0 0 116 0" stroke="#b8a4ff" stroke-width="11" />
+              <path d="M10 82a58 15 0 0 0 116 0" stroke="#000" stroke-width="6" />
+            </g>
+          </svg>
+        </div>
+        <div class="shade"></div>
+      </div>
+    </div>
     <div id="root"></div>
+    <noscript>
+      <style>#loader { display: none } html { overflow: auto !important } body { color: #f1eef8; font: 18px/1.5 Arial, sans-serif; padding: 10vw }</style>
+      <h1>INSIYA HUSAIN, full stack and AI engineer</h1>
+      <p>This site needs JavaScript. You can also find me on <a href="https://github.com/Insiyaya" style="color:#b8a4ff">GitHub</a> and <a href="https://www.linkedin.com/in/insiya-husain-89b501259/" style="color:#b8a4ff">LinkedIn</a>.</p>
+    </noscript>
+    <script>
+      // If the app never starts, stop the loader and say so instead of hopping forever.
+      setTimeout(function () {
+        var root = document.getElementById('root')
+        if (root.childElementCount) return
+        document.documentElement.dataset.loading = 'false'
+        document.getElementById('loader').dataset.state = 'done'
+        root.innerHTML = '<p style="padding:10vw;color:#f1eef8;font:20px/1.5 Arial,sans-serif">The site could not load. Refresh to try again, or email <a style="color:#b8a4ff" href="mailto:insiyaahusainn@gmail.com">insiyaahusainn@gmail.com</a>.</p>'
+      }, 20000)
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

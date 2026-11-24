@@ -1,41 +1,31 @@
-import { SiGithub, SiLinkedin } from 'react-icons/si'
-import { LINKS } from '../data'
+import { EMAIL, LINKS } from '../data'
+import { Buddy } from '../ui/kit'
+import ProximityType from '../ui/ProximityType'
+
+const LINES = ['LET’S', 'CONNECT']
 
 export default function Footer() {
   return (
-    <footer className="relative z-10 border-t border-line bg-void py-7 px-5">
-      <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-        <span className="text-faint text-xs order-2 sm:order-1">
-          Designed &amp; built by{' '}
-          <span className="grad-text-static font-semibold">Insiya Husain</span>
-          {' '}· © 2026
-        </span>
-
-        {/* System footer note — quiet technical signature */}
-        <span className="order-1 sm:order-2 flex items-center gap-2 font-mono text-[9.5px] tracking-[0.2em] uppercase text-faint/70">
-          <span className="w-1 h-1 rounded-full bg-cyber animate-pulse-dot" />
-          all systems operational
-        </span>
-
-        <div className="flex items-center gap-3 order-3">
-          <a
-            href={LINKS.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub"
-            className="text-faint hover:text-neon transition-colors text-sm"
-          >
-            <SiGithub />
-          </a>
-          <a
-            href={LINKS.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn"
-            className="text-faint hover:text-neon transition-colors text-sm"
-          >
-            <SiLinkedin />
-          </a>
+    <footer id="contact" className="end">
+      <span className="floor" aria-hidden="true" />
+      <div className="section relative pb-8">
+        <div className="end-hero">
+          <ProximityType lines={LINES} className="text-[clamp(3.6rem,15.5vw,18rem)]" />
+          <Buddy className="end-buddy" size={210} />
+        </div>
+        <p className="mt-10 max-w-[44ch] text-xl leading-relaxed text-soft">
+          Have a project in mind or a role to discuss? I&rsquo;d love to hear about it.
+        </p>
+        <div className="mt-8 flex flex-wrap items-center gap-3">
+          <a className="pill pill-solid pill-big" data-magnetic href={LINKS.email} target="_blank" rel="noopener noreferrer">Email me</a>
+          <a className="pill pill-big" data-magnetic href={LINKS.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a className="pill pill-big" data-magnetic href={LINKS.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a className="pill pill-big" data-magnetic href={LINKS.twofolds} target="_blank" rel="noopener noreferrer">Twofolds</a>
+        </div>
+        <p className="mt-7 text-lg text-soft"><a className="link" href={`mailto:${EMAIL}`}>{EMAIL}</a></p>
+        <div className="mt-24 flex flex-wrap justify-between gap-4 text-sm text-dim">
+          <p>Designed and built by INSIYA HUSAIN in Indore, India. © 2026</p>
+          <a className="hover:text-ink" href="#home">Back to the start</a>
         </div>
       </div>
     </footer>
