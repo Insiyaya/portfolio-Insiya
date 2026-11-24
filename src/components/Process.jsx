@@ -26,7 +26,7 @@ export default function Process() {
     <section id="process" ref={root} className="process">
       <span className="floor" aria-hidden="true" />
       <div className="section relative">
-        <Heading text="HOW I WORK" className="text-[clamp(2.6rem,7.4vw,7.5rem)]" />
+        <Heading text="How I work" className="text-[clamp(4.2rem,10vw,10.5rem)]" />
         <ol className="pipe mt-16 lg:mt-24" style={{ '--at': at }} onPointerLeave={() => setHeld(false)}>
           <span className="pipe-line" aria-hidden="true" />
           {WORKFLOW.map((s, i) => (
@@ -43,8 +43,8 @@ export default function Process() {
             >
               <span className="pipe-node">{s.step}</span>
               <div className="hud pipe-card" data-glow>
-                <h3 className="text-xl font-bold leading-tight text-ink">{s.title.replace('&', 'and')}</h3>
-                <p className="mt-3 leading-[1.6] text-dim">{s.desc}</p>
+                <h3 className="card-title">{s.title}</h3>
+                <p className="mt-3">{s.desc}</p>
               </div>
             </li>
           ))}

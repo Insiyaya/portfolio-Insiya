@@ -47,15 +47,15 @@ export default function Header() {
     <header ref={bar} className="site-head">
       <div className="site-head-status">
         <p>
-          Founder of <a href={LINKS.twofolds} target="_blank" rel="noopener noreferrer">Twofolds</a>
+          Founder, <a href={LINKS.twofolds} target="_blank" rel="noopener noreferrer">Twofolds</a>
         </p>
         <p>
-          Product Engineer at <a href={LINKS.ruby} target="_blank" rel="noopener noreferrer">Ruby CRM</a>
+          Product Engineer, <a href={LINKS.ruby} target="_blank" rel="noopener noreferrer">Ruby CRM</a>
         </p>
       </div>
       <a href="#home" className="site-head-mark" aria-label="INSIYA HUSAIN, back to the start">
         <b>INSIYA HUSAIN</b>
-        <small>Full stack and AI engineer<i>, founder of Twofolds</i></small>
+        <small>Full Stack and AI Engineer</small>
       </a>
       <nav aria-label="Sections">
         {NAV.map(([label, href]) => (
@@ -70,7 +70,7 @@ export default function Header() {
             <a key={href} href={href}>{label}</a>
           ))}
         </nav>
-        <p>Product Engineer at <a href={LINKS.ruby} target="_blank" rel="noopener noreferrer">Ruby CRM</a>. Founder of <a href={LINKS.twofolds} target="_blank" rel="noopener noreferrer">Twofolds</a>.</p>
+        <p>Product Engineer, <a href={LINKS.ruby} target="_blank" rel="noopener noreferrer">Ruby CRM</a>. Founder, <a href={LINKS.twofolds} target="_blank" rel="noopener noreferrer">Twofolds</a>.</p>
       </dialog>
     </header>
   )

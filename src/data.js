@@ -91,29 +91,29 @@ export const RECRUITER_FACTS = [
     tone:  'lavender',
   },
   {
-    key:   'currently',
+    key:   'current role',
     icon:  'FaBriefcase',
-    value: 'Product Engineer at Ruby CRM',
+    value: 'Product Engineer, Ruby CRM',
     sub:   'Agentic AI CRM for UAE real estate',
     href:  'https://www.rubycrm.ai/',
     tone:  'pink',
   },
   {
-    key:   'cloud certified',
+    key:   'certification',
     icon:  'FaAws',
     value: 'AWS Solutions Architect',
     sub:   'Associate level',
     tone:  'pink',
   },
   {
-    key:   'AI specialism',
+    key:   'specialism',
     icon:  'FaRobot',
     value: 'LangChain agent pipelines',
-    sub:   'FastAPI · AWS · DynamoDB at scale',
+    sub:   'FastAPI, AWS and DynamoDB at scale',
     tone:  'cyan',
   },
   {
-    key:   'academics',
+    key:   'education',
     icon:  'FaGraduationCap',
     value: '8.8 / 10 GPA',
     sub:   'B.E. — IET DAVV, 2025',
@@ -127,10 +127,10 @@ export const RECRUITER_FACTS = [
     tone:  'magenta',
   },
   {
-    key:   'also certified',
+    key:   'certification',
     icon:  'FaCloud',
     value: 'Microsoft Azure AI-900',
-    sub:   'AI fundamentals',
+    sub:   'AI Fundamentals',
     tone:  'lavender',
   },
 ]
@@ -313,41 +313,11 @@ export const PROJECTS = [
 ]
 
 export const WORKFLOW = [
-  {
-    step:   1,
-    title:  'Discover & Define',
-    desc:   'I start by deeply understanding the problem space. Mapping user needs, defining constraints, and shaping requirements into clear technical specifications before writing a single line of code.',
-    icon:   'FaMagnifyingGlass',
-    accent: '#FF2DAA',
-  },
-  {
-    step:   2,
-    title:  'Architect & Plan',
-    desc:   'I design the system architecture. Choosing the right stack, modeling data flows, and planning API contracts. Whether it\'s FastAPI microservices or an agentic AI pipeline, the blueprint comes first.',
-    icon:   'FaSitemap',
-    accent: '#FF4FC3',
-  },
-  {
-    step:   3,
-    title:  'Build & Iterate',
-    desc:   'I develop in focused sprints with rapid feedback loops. Clean code, modular patterns, and continuous testing ensure every feature is production-ready from the first commit.',
-    icon:   'FaCode',
-    accent: '#D946EF',
-  },
-  {
-    step:   4,
-    title:  'Deploy & Scale',
-    desc:   'I ship to the cloud with CI/CD pipelines, containerized services on AWS, and infrastructure-as-code. Every deployment is reproducible, monitored, and built to handle real-world load.',
-    icon:   'FaRocket',
-    accent: '#C084FC',
-  },
-  {
-    step:   5,
-    title:  'Measure & Refine',
-    desc:   'I track performance metrics, gather user feedback, and iterate. Engineering doesn\'t stop at deployment. I continuously optimize for speed, reliability, and user impact.',
-    icon:   'FaChartLine',
-    accent: '#F9A8D4',
-  },
+  { step: 1, title: 'Discover and define', desc: 'I begin with the problem: who it affects, what constrains it, and what a good outcome looks like. Requirements become a clear specification before any code is written.' },
+  { step: 2, title: 'Architect and plan',  desc: 'I choose the stack, model the data and agree the API contracts. Whether it is a set of FastAPI services or an agent pipeline, the blueprint comes first.' },
+  { step: 3, title: 'Build and iterate',   desc: 'I work in focused sprints with short feedback loops. Clean, modular code and continuous testing keep every feature ready for production.' },
+  { step: 4, title: 'Deploy and scale',    desc: 'I release through CI/CD to containerised services on AWS, with infrastructure as code. Each deployment is reproducible, monitored and ready for real load.' },
+  { step: 5, title: 'Measure and refine',  desc: 'I follow the metrics, listen to users and iterate. Delivery is the midpoint of the work, not the end of it.' },
 ]
 
 export const CERTS = [
@@ -380,19 +350,19 @@ export const EDUCATION = [
 export const EMAIL = 'insiyaahusainn@gmail.com'
 
 export const ABOUT = {
-  lead: 'I’m Insiya, a full stack and AI engineer. I’m a Product Engineer at Ruby CRM, an agentic AI CRM for real estate, and the founder of Twofolds.',
+  lead: 'I am a full stack and AI engineer who cares as much about the person using the software as the system behind it.',
   body: [
-    'Most engineers solve the problem in front of them. I look for the pattern behind it: between the prompt and the model, the agent and its tools, the backend and the person tapping a screen.',
-    'I’ve built production AI agents, the FastAPI services they run on and the DynamoDB pipelines that feed them. Improvements I shipped along the way drove 30-50% growth in client engagement.',
-    'I also love Flutter: one codebase, every platform, every pixel in place. And I’m going deep into machine learning, because the systems I want to build next won’t just respond. They’ll learn and adapt.',
+    'I work as a Product Engineer at Ruby CRM, an agentic AI CRM for real estate, and I am the founder of Twofolds, a premium tee brand with its own custom print studio.',
+    'My experience spans production AI agents, the FastAPI services that run them and the DynamoDB pipelines that support them. Along the way, improvements I delivered contributed to 30 to 50% growth in client engagement.',
+    'I am equally at home in Flutter, where one codebase reaches every platform. I am also deepening my work in machine learning, toward systems that do more than respond: they learn and adapt.',
   ],
 }
 
 export const SERVICES = [
-  { title: 'AI agent development',    desc: 'End-to-end agentic AI systems, LLM orchestration, prompt engineering, and tool-use workflows' },
-  { title: 'Backend engineering',     desc: 'High-throughput APIs and microservices with FastAPI, Django, and event-driven architectures' },
-  { title: 'Mobile and cross-platform', desc: 'Production Flutter apps shipping to Android, iOS, Web, and Desktop from a single codebase' },
-  { title: 'Cloud and infrastructure', desc: 'AWS-native deployments with DynamoDB, Lambda, Docker, Terraform, and CI/CD automation' },
+  { title: 'AI agent development',    desc: 'End-to-end agentic systems: LLM orchestration, prompt engineering and tool-use workflows.' },
+  { title: 'Backend engineering',     desc: 'High-throughput APIs and microservices with FastAPI, Django and event-driven architectures.' },
+  { title: 'Mobile and cross-platform', desc: 'Production Flutter apps for Android, iOS, web and desktop from a single codebase.' },
+  { title: 'Cloud and infrastructure', desc: 'AWS-native deployments with DynamoDB, Lambda, Docker, Terraform and automated CI/CD.' },
 ]
 
 export const OPEN_SOURCE = {
@@ -400,13 +370,28 @@ export const OPEN_SOURCE = {
   achievements: ['Pull Shark ×2', 'Quickdraw', 'Pair Extraordinaire'],
 }
 
-/* Rotating subtitles in the skills scene. */
-export const QUOTES = [
-  'It worked on my machine. So I shipped my machine.',
-  'My AI agent has every tool. It still asks me where things are.',
-  'The cloud is just someone else’s computer with a bigger bill.',
-  'Prompt engineering: asking nicely until it works.',
-  'That’s not a bug. That’s a feature with confidence.',
-  'Two things are hard in tech: naming, caching and off-by-one errors.',
-  'I’d tell you a UDP joke, but you might not get it.',
-]
+/* Rotating subtitles: one set of tech sarcasm per scene. */
+export const QUOTES = {
+  skills: [
+    'It worked on my machine. So I shipped my machine.',
+    'My AI agent has every tool. It still asks me where things are.',
+    'The cloud is just someone else’s computer with a bigger bill.',
+    'Prompt engineering: asking nicely until it works.',
+    'Two things are hard in tech: naming, caching and off-by-one errors.',
+    'I’d tell you a UDP joke, but you might not get it.',
+  ],
+  experience: [
+    'Wanted: ten years of experience in a framework released last week.',
+    'That’s not a bug. That’s a feature with confidence.',
+    'Meetings: where minutes are kept and hours are lost.',
+    'Commit message: “final fix”. It was not the final fix.',
+    'Senior engineer: someone who has broken more things, more quietly.',
+  ],
+  projects: [
+    'It’s not a side project. It’s a startup with commitment issues.',
+    'Estimate: two days. Reality: character development.',
+    'It worked on the first try. Now I’m suspicious.',
+    'Deploying on a Friday, because I enjoy adventure.',
+    'The documentation is in my head. That version is deprecated.',
+  ],
+}

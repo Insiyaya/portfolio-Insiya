@@ -16,6 +16,8 @@ export default {
       },
       fontFamily: {
         sans: ['"Archivo Variable"', 'Arial', 'sans-serif'],
+        serif: ['"Newsreader Variable"', 'Georgia', 'serif'],
+        script: ['"Pinyon Script"', 'cursive'],
       },
     },
   },

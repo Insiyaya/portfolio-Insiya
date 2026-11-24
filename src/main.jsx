@@ -1,6 +1,9 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import '@fontsource-variable/archivo/standard.css'
+import '@fontsource-variable/newsreader/wght.css'
+import '@fontsource-variable/newsreader/wght-italic.css'
+import '@fontsource/pinyon-script/latin.css'
 import './index.css'
 import App from './App.jsx'
 

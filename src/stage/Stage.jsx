@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { EXPERIENCE, PROJECTS, QUOTES, SKILLS } from '../data'
 import ContactPanel from './ContactPanel'
-import { useScramble } from './useScramble'
+import { useTyped } from './useTyped'
 import { useStageScroll } from './useStageScroll'
 import './stage.css'
 
@@ -148,23 +148,15 @@ export default function Stage({ onVisible, onOpen }) {
     if (hit?.item) onOpen({ type: hit.type, item: hit.item })
   }
 
-  /* A new quote every few seconds while the skills scene is up. */
-  const [quote, setQuote] = useState(0)
+  /* A new line of tech sarcasm every few seconds, from the current scene's set. */
+  const [tick, setTick] = useState(0)
+  const set = [null, QUOTES.skills, QUOTES.experience, QUOTES.projects, null][live ? scene : 0]
   useEffect(() => {
-    if (!live || scene !== 1 || reduced) return
-    const timer = setInterval(() => setQuote(n => (n + 1) % QUOTES.length), 4600)
+    if (!set || reduced) return
+    const timer = setInterval(() => setTick(n => n + 1), 5200)
     return () => clearInterval(timer)
-  }, [live, scene, reduced])
-
-  const verb = media('(pointer: coarse)') ? 'Tap' : 'Click'
-  const line = [
-    '',
-    QUOTES[quote],
-    hover?.type === 'role' ? `${hover.item.company}: ${hover.item.role}` : `Where I have worked. ${verb} a card to read more.`,
-    hover?.type === 'project' ? `${hover.item.title}: ${hover.item.kind}` : `Selected work. ${verb} a screen to open it.`,
-    '',
-  ][live ? scene : 0]
-  const subtitle = useScramble(line, reduced)
+  }, [set, reduced])
+  const subtitle = useTyped(set ? set[tick % set.length] : '', reduced)
   const over = hover?.type === 'mascot' ? 'poke' : hover ? 'open' : undefined
 
   return (
@@ -198,7 +190,7 @@ export default function Stage({ onVisible, onOpen }) {
           </div>
 
           <p className="subtitle" aria-hidden="true">{subtitle && <span>{subtitle}</span>}</p>
-          <p className="sr-only" aria-live="polite">{scene === 1 ? 'Skills' : line}</p>
+          <p className="sr-only" aria-live="polite">{live ? SCENES[scene] : ''}</p>
 
           {!flat && <ContactPanel active={live && scene === LAST} />}
         </div>
@@ -218,9 +210,6 @@ export default function Stage({ onVisible, onOpen }) {
               </button>
             ))}
           </div>
-          <a className="stage-skip" href="#about">
-            {scene === LAST ? 'Continue to details' : 'Skip to details'}
-          </a>
         </div>
       </section>
     </div>

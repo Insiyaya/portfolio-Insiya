@@ -10,7 +10,7 @@ export default function Projects({ onOpen }) {
 
   return (
     <section id="projects" className="section">
-      <Heading text="PROJECTS" className="text-[clamp(2.6rem,7.4vw,7.5rem)]" />
+      <Heading text="Projects" className="text-[clamp(4.2rem,10vw,10.5rem)]" />
 
       <div className="screens mt-16 lg:mt-24">
         {shown.map(p => (

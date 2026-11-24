@@ -23,18 +23,18 @@ export default function ContactPanel({ active }) {
           <br />
           or a role in mind?
         </h2>
-        <p className="contact-lead">I&rsquo;d love to hear about it. Available for full-time roles and freelance projects.</p>
+        <p className="contact-lead">I would be glad to hear from you. I am available for full&#8209;time roles and freelance projects.</p>
         <form onSubmit={submit}>
           <label>
             Name
-            <input name="name" autoComplete="name" required maxLength={120} placeholder="Your name" />
+            <input name="name" autoComplete="name" required maxLength={120} placeholder="Your full name" />
           </label>
           <label>
             Message
-            <textarea name="message" rows={3} required maxLength={1500} placeholder="What are you building?" />
+            <textarea name="message" rows={3} required maxLength={1500} placeholder="Tell me about the project or role" />
           </label>
           <div className="contact-actions">
-            <button type="submit">Open in Gmail</button>
+            <button type="submit">Compose in Gmail</button>
             <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
           </div>
           <p className="contact-note" role="status">

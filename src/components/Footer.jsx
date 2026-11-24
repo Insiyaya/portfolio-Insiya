@@ -13,8 +13,8 @@ export default function Footer() {
           <ProximityType lines={LINES} className="text-[clamp(3.6rem,15.5vw,18rem)]" />
           <Buddy className="end-buddy" size={210} />
         </div>
-        <p className="mt-10 max-w-[44ch] text-xl leading-relaxed text-soft">
-          Have a project in mind or a role to discuss? I&rsquo;d love to hear about it.
+        <p className="lead mt-10 max-w-[30ch]">
+          If you have a project in mind or a role to discuss, I would be glad to hear from you.
         </p>
         <div className="mt-8 flex flex-wrap items-center gap-3">
           <a className="pill pill-solid pill-big" data-magnetic href={LINKS.email} target="_blank" rel="noopener noreferrer">Email me</a>
@@ -22,7 +22,7 @@ export default function Footer() {
           <a className="pill pill-big" data-magnetic href={LINKS.github} target="_blank" rel="noopener noreferrer">GitHub</a>
           <a className="pill pill-big" data-magnetic href={LINKS.twofolds} target="_blank" rel="noopener noreferrer">Twofolds</a>
         </div>
-        <p className="mt-7 text-lg text-soft"><a className="link" href={`mailto:${EMAIL}`}>{EMAIL}</a></p>
+        <p className="mt-8"><a className="mail" href={`mailto:${EMAIL}`}>{EMAIL}</a></p>
         <div className="mt-24 flex flex-wrap justify-between gap-4 text-sm text-dim">
           <p>Designed and built by INSIYA HUSAIN in Indore, India. © 2026</p>
           <a className="hover:text-ink" href="#home">Back to the start</a>

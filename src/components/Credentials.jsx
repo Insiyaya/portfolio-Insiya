@@ -4,7 +4,7 @@ import { Heading } from '../ui/kit'
 export default function Credentials() {
   return (
     <section id="credentials" className="section">
-      <Heading text="CREDENTIALS" className="text-[clamp(2.4rem,6.6vw,6.75rem)]" />
+      <Heading text="Credentials" className="text-[clamp(4.2rem,10vw,10.5rem)]" />
 
       <div className="mt-14 grid gap-5 md:grid-cols-2 lg:mt-20">
         {CERTS.map(c => (
@@ -18,7 +18,7 @@ export default function Credentials() {
 
       <div className="mt-5 grid gap-5 lg:grid-cols-2">
         <div className="hud p-7 lg:p-9" data-glow>
-          <h3 className="text-2xl font-bold">Education</h3>
+          <h3 className="display text-4xl">Education</h3>
           <ul className="mt-5">
             {EDUCATION.map(e => (
               <li key={e.degree} className="flex flex-wrap items-baseline justify-between gap-x-6 border-t border-line py-4">
@@ -32,7 +32,7 @@ export default function Credentials() {
           </ul>
         </div>
         <div className="hud p-7 lg:p-9" data-glow>
-          <h3 className="text-2xl font-bold">Open source</h3>
+          <h3 className="display text-4xl">Open source</h3>
           <p className="display mt-6 text-[clamp(3.4rem,7vw,6rem)] text-violet">40+</p>
           <p className="mt-1 text-lg">public repositories</p>
           <ul className="tags mt-6">

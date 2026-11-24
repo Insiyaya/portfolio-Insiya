@@ -19,10 +19,10 @@ const WIDE = [
   { x: 3.05, y: -1.06, z: 0.2, ry: -0.28, rz: 0.03 },
 ]
 const TALL = [
-  { x: -0.72, y: 2.95, z: -0.4, ry: 0.14, rz: 0.03, s: 0.92 },
-  { x: 0.72, y: 1.72, z: -0.6, ry: -0.14, rz: -0.03, s: 0.92 },
-  { x: -0.72, y: -1.75, z: -0.3, ry: 0.14, rz: -0.02, s: 0.92 },
-  { x: 0.72, y: -2.9, z: -0.2, ry: -0.14, rz: 0.02, s: 0.92 },
+  { x: -0.78, y: 3.12, z: -0.4, ry: 0.14, rz: 0.03, s: 0.82 },
+  { x: 0.78, y: 2.12, z: -0.4, ry: -0.14, rz: -0.03, s: 0.82 },
+  { x: -0.78, y: -1.2, z: -0.3, ry: 0.14, rz: -0.02, s: 0.82 },
+  { x: 0.78, y: -2.2, z: -0.2, ry: -0.14, rz: 0.02, s: 0.82 },
 ]
 
 function plaqueTexture(job) {
@@ -205,7 +205,7 @@ export function createJourneyWorld({ renderer, mascotGeometry, experience }) {
     trail: ['#ffffff', '#8df5d6', 1.15],
     look: { bloom: 0.32, threshold: 1.25, vignette: 0.4, aberration: 0.5 },
     camera: { zoom: 1, y: 0.05 },
-    rig: () => ({ x: 0, y: -0.05, z: 0, scale: layout?.tall ? 0.72 : 0.92, yaw: 0, pitch: 0.06, roll: 0.02 }),
+    rig: () => ({ x: 0, y: layout?.tall ? 0.42 : -0.05, z: 0, scale: layout?.tall ? 0.66 : 0.92, yaw: 0, pitch: 0.06, roll: 0.02 }),
     resize(next) {
       layout = next
       spots = next.tall ? TALL : WIDE

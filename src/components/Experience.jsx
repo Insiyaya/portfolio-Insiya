@@ -32,7 +32,7 @@ export default function Experience() {
 
   return (
     <section id="experience" className="section">
-      <Heading text="EXPERIENCE" className="text-[clamp(2.6rem,7.4vw,7.5rem)]" />
+      <Heading text="Experience" className="text-[clamp(4.2rem,10vw,10.5rem)]" />
 
       <div ref={list} className="rail mt-16 lg:mt-24">
         <span className="rail-line" aria-hidden="true" />

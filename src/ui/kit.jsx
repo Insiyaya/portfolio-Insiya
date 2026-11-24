@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import { useScramble } from '../stage/useScramble'
 
 const calm = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -19,16 +18,12 @@ export function useSeen(margin = '-12% 0px') {
   return [ref, seen]
 }
 
-/* Section heading that decodes itself, like the subtitles on the stage. The
-   full text stays in the layout, so nothing shifts and it is always readable
-   to assistive tech. */
+/* Section title in a formal hand, written on from left to right when reached. */
 export function Heading({ text, as: Tag = 'h2', className = '' }) {
   const [ref, seen] = useSeen()
-  const shown = useScramble(seen ? text : '', calm())
   return (
-    <Tag ref={ref} className={`heading ${className}`}>
-      <span className={seen ? 'invisible' : 'opacity-0'}>{text}</span>
-      <span className="heading-live" aria-hidden="true">{shown}</span>
+    <Tag ref={ref} className={`heading ${className}`} data-seen={seen || undefined}>
+      <span>{text}</span>
     </Tag>
   )
 }

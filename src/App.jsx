@@ -25,7 +25,7 @@ export default function App() {
 
   return (
     <>
-      <a href="#about" className="skip-link">Skip to details</a>
+      <a href="#about" className="skip-link">Skip to content</a>
       <ShaderBackground paused={covered} />
       <Header />
       <main>

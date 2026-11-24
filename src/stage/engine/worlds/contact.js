@@ -121,9 +121,9 @@ export function createContactWorld({ renderer, mascotGeometry }) {
       backdrop.setLevel(0.5 * smooth(presence))
       const tall = layout.tall
       const x = tall ? 0 : Math.min(layout.halfW, 5.4) * 0.45
-      const y = tall ? layout.halfH * 0.52 : 0.12
+      const y = tall ? layout.halfH * 0.62 : 0.12
       const e = outBack(span(presence, 0.2, 0.7), 1.8)
-      const size = Math.max(0.0001, e * (tall ? 0.92 : 1.12))
+      const size = Math.max(0.0001, e * (tall ? 0.74 : 1.12))
       group.position.set(x, y + Math.sin(time * 1.1) * 0.08, 0)
       const gap = Math.hypot(probe.x - x, probe.y - y)
       const want = probe.on ? Math.max(0, 1 - gap / 2.6) : 0
@@ -135,7 +135,7 @@ export function createContactWorld({ renderer, mascotGeometry }) {
       ring.rotation.set(0.36 + Math.sin(time * 0.7) * 0.08, 0, -0.3 + Math.sin(time * 0.5) * 0.08)
       moon.position.set(Math.cos(time * 0.6) * 1.62, Math.sin(time * 0.6) * -0.5, Math.sin(time * 0.6) * 1.5)
       moon.scale.setScalar(0.13)
-      pool.position.set(x, y - (tall ? 1.7 : 1.95), -0.4)
+      pool.position.set(x, y - (tall ? 1.3 : 1.95), -0.4)
       pool.material.uniforms.uA.value = span(presence, 0.4, 0.6) * 0.5
     },
     dispose: () => env.dispose(),
