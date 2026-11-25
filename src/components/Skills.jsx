@@ -113,11 +113,11 @@ export default function Skills() {
             </div>
             <div className="readout-rate">
               <div className="meter" key={picked} role={shown ? 'meter' : undefined} aria-label={shown ? `${shown.name} rating` : undefined} aria-valuemin={shown ? 0 : undefined} aria-valuemax={shown ? 10 : undefined} aria-valuenow={shown?.level}>
-                {BARS.map(i => <i key={i} data-full={(shown && i < shown.level) || undefined} style={{ '--n': i }} />)}
+                {BARS.map(i => <i key={i} data-full={(shown && i < shown.level) || undefined} style={{ '--n': i, '--part': shown ? Math.min(1, shown.level - i) : 1 }} />)}
               </div>
               <b>{shown ? <>{shown.level}<small> out of 10</small></> : ''}</b>
             </div>
-            <p className="readout-use">{shown ? shown.text : 'Ratings come from the projects and roles on this page and on my GitHub.'}</p>
+            <p className="readout-use">{shown ? shown.text : 'My own rating, with the projects and roles where I used each skill.'}</p>
           </div>
 
           <ul className="keys" aria-label="Skills">

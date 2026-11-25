@@ -1,5 +1,5 @@
-/* Every project and role, with what it was built with. Ratings come from this
-   list alone, so adding a project here moves the bars by itself.
+/* Every project and role, with what it was built with. The order of the ratings
+   comes from this list, so adding a project here moves the bars by itself.
    Weights: a job counts 3, a live product or certificate 2, a project 1,
    practice 0.5. */
 const WORKS = [
@@ -38,14 +38,14 @@ const CERTIFIED = { AWS: { weight: 2, text: 'Certified Solutions Architect, Asso
 
 const list = names => (names.length < 2 ? names.join('') : `${names.slice(0, -1).join(', ')} and ${names.at(-1)}`)
 
-/* { level: 3 to 10, text } for one skill. Use grows the level quickly at first,
-   then slowly, so one large job does not count as mastery. */
+/* { level, text } for one skill. Levels run from 8 to 10 in half points; the
+   more a skill has been used, the higher it sits. */
 export function rating(skill) {
   const used = WORKS.filter(w => w.uses.includes(skill))
   const cert = CERTIFIED[skill]
   const score = used.reduce((sum, w) => sum + w.weight, cert?.weight ?? 0)
-  const level = Math.min(10, Math.round(3 + 1.7 * Math.sqrt(score)))
-  if (!used.length) return { level, text: 'Working knowledge.' }
+  const level = Math.min(10, Math.round((8 + 0.486 * Math.sqrt(score)) * 2) / 2)
+  if (!used.length) return { level, text: 'Part of my toolkit.' }
   const names = used.slice(0, 4).map(w => w.name)
   const more = used.length - names.length
   const text = `Used in ${list(more ? [...names, `${more} more`] : names)}.`

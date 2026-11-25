@@ -366,7 +366,7 @@ html[data-loading='false'] .site-head { opacity: 1; }
 .readout:not([data-on]) .readout-rate b { display: none; }
 .meter { display: flex; flex: 1; gap: 5px; height: clamp(18px, 1.7vw, 26px); }
 .meter i { flex: 1; border-radius: 4px; background: rgba(255, 255, 255, 0.1); transform-origin: 50% 100%; }
-.meter i[data-full] { background: var(--c); box-shadow: 0 0 16px -2px var(--c); animation: bar-up 0.4s cubic-bezier(0.3, 1.7, 0.5, 1) calc(var(--n) * 55ms + 120ms) both; }
+.meter i[data-full] { background: linear-gradient(90deg, var(--c) calc(var(--part) * 100%), rgba(255, 255, 255, 0.1) 0); box-shadow: 0 0 16px -2px var(--c); animation: bar-up 0.4s cubic-bezier(0.3, 1.7, 0.5, 1) calc(var(--n) * 55ms + 120ms) both; }
 @keyframes bar-up { from { background: rgba(255, 255, 255, 0.1); box-shadow: none; transform: scaleY(0.25); } }
 /* Nothing pressed yet: the bars idle like an equaliser */
 .readout:not([data-on]) .meter i { background: linear-gradient(0deg, #ff2da0, #a488ff 60%, #8df5d6); opacity: 0.75; animation: equalise 1.5s ease-in-out calc(var(--n) * -190ms) infinite alternate; }
