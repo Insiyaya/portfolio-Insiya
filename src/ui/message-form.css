@@ -1,0 +1,70 @@
+/* ── The message form: on the contact scene and in the footer's dialog ── */
+.msg { color: var(--ink); font-family: var(--serif); }
+.msg-title { margin: 0 0 var(--msg-title-gap, 18px); font-family: var(--script); font-size: var(--msg-title, 64px); font-weight: 400; line-height: 1; outline: 0; }
+.msg-lead { margin: 0 0 var(--msg-lead-gap, 26px); color: var(--soft); font-size: var(--msg-lead, 20px); line-height: 1.42; overflow-wrap: anywhere; text-wrap: balance; }
+.msg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--msg-gap, 18px) 28px; }
+.msg-field { min-width: 0; }
+.msg-field[data-wide] { grid-column: 1 / -1; }
+.msg-top { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.msg-top label { color: var(--violet-soft); font-size: var(--msg-label, 17px); font-style: italic; }
+.msg-error { color: #ff7cc8; font-size: 15px; white-space: nowrap; }
+.msg input, .msg textarea {
+  display: block;
+  width: 100%;
+  padding: var(--msg-pad, 8px) 0;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 0;
+  background: none;
+  color: #fff;
+  font-family: var(--serif);
+  font-size: var(--msg-text, 20px);
+  line-height: 1.35;
+  resize: none;
+}
+.msg textarea { height: var(--msg-area, 4.9em); }
+.msg input::placeholder, .msg textarea::placeholder { color: #9a93ad; font-style: italic; opacity: 1; }
+.msg input:focus, .msg textarea:focus { outline: 0; border-bottom-color: var(--violet); background: linear-gradient(var(--violet), var(--violet)) 0 100% / 100% 1px no-repeat; }
+.msg [aria-invalid='true'], .msg [aria-invalid='true']:focus { border-bottom-color: var(--pink); background: linear-gradient(var(--pink), var(--pink)) 0 100% / 100% 1px no-repeat; }
+.msg [readonly] { color: var(--soft); }
+/* Chrome paints saved details on a slate box. Keep them on the page's black. */
+.msg input:-webkit-autofill, .msg input:-webkit-autofill:hover, .msg input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #fff;
+  caret-color: #fff;
+  transition: background-color 99999s, color 99999s;
+}
+.msg .msg-trap { display: none; }
+.msg-note { min-height: 1.45em; margin: var(--msg-note-gap, 14px) 0; color: var(--soft); font-size: 16px; line-height: 1.45; }
+.msg[data-state='failed'] .msg-note, .msg[data-state='busy'] .msg-note { color: #ff9ad5; }
+.msg-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 22px; }
+.msg-actions button {
+  padding: var(--msg-button, 13px) 24px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--violet-soft);
+  color: #0a0712;
+  font-family: var(--serif);
+  font-size: 19px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.msg-actions button:hover { background: #fff; }
+.msg-actions button[aria-disabled='true'] { background: rgba(203, 186, 255, 0.45); cursor: progress; }
+.msg a { color: var(--ink); text-underline-offset: 4px; text-decoration-color: rgba(255, 255, 255, 0.35); }
+.msg a:hover { text-decoration-color: currentColor; }
+.msg-actions a { font-size: 18px; font-style: italic; }
+.msg[data-state='sent'] .msg-title, .msg[data-state='sent'] .msg-lead { animation: msg-in 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.msg[data-state='sent'] .msg-lead { animation-delay: 0.1s; }
+@keyframes msg-in { from { opacity: 0; transform: translateY(14px); } }
+
+/* In the footer's dialog */
+.panel-message { --msg-title: clamp(44px, 6vw, 76px); padding-top: clamp(30px, 5vw, 52px); }
+.panel-message .msg-title { padding-right: 60px; }
+
+@media (max-width: 559px) {
+  .msg-grid { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .msg[data-state='sent'] .msg-title, .msg[data-state='sent'] .msg-lead { animation: none; }
+}

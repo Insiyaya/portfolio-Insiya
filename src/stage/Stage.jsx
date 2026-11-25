@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { EXPERIENCE, PROJECTS, QUOTES, SKILLS } from '../data'
+import { ACRONYM, EXPERIENCE, PROJECTS, QUOTES, SKILLS } from '../data'
 import ContactPanel from './ContactPanel'
 import { useTyped } from './useTyped'
 import { useStageScroll } from './useStageScroll'
@@ -58,7 +58,7 @@ export default function Stage({ onVisible, onOpen }) {
     const boot = async () => {
       const { createEngine } = await import('./engine')
       if (cancelled) return
-      const made = await createEngine({ mount: mount.current, skills: SKILLS, projects: PROJECTS, experience: EXPERIENCE, reduced, onHover: setHover, onLost: () => setTimeout(() => setAttempt(n => n + 1), 400) })
+      const made = await createEngine({ mount: mount.current, skills: SKILLS, projects: PROJECTS, experience: EXPERIENCE, acronym: ACRONYM, reduced, onHover: setHover, onLost: () => setTimeout(() => setAttempt(n => n + 1), 400) })
       if (cancelled) return made.dispose()
       if (!target && first) {
         await wait(Math.max(0, MIN_LOADER - (performance.now() - began)))
@@ -175,6 +175,15 @@ export default function Stage({ onVisible, onOpen }) {
             </div>
           )}
 
+          {/* The 3D letters again, for keyboards and screen readers */}
+          {!flat && (
+            <ul className="letter-keys" aria-label="What INSIYA stands for" inert={live && scene === 0 ? undefined : ''}>
+              {ACRONYM.map((a, i) => (
+                <li key={i}><button type="button" onClick={() => onOpen({ type: 'letter', item: { index: i } })}>{a.letter} for {a.word}</button></li>
+              ))}
+            </ul>
+          )}
+
           <div className="explore" data-visible={live && !flat && scene === 0} inert={scene === 0 ? undefined : ''}>
             <span className="explore-fill" />
             <svg className="explore-ring" viewBox="0 0 200 200" fill="none" aria-hidden="true">
@@ -192,7 +201,7 @@ export default function Stage({ onVisible, onOpen }) {
           <p className="subtitle" aria-hidden="true">{subtitle && <span>{subtitle}</span>}</p>
           <p className="sr-only" aria-live="polite">{live ? SCENES[scene] : ''}</p>
 
-          {!flat && <ContactPanel active={live && scene === LAST} />}
+          {!flat && <ContactPanel active={live && scene === LAST} onSent={() => engine.current?.cheer()} />}
         </div>
 
         <div className="stage-foot">

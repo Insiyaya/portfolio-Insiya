@@ -39,6 +39,7 @@ export default function Projects({ onOpen }) {
         {signs.map((p, i) => (
           <button key={p.id} id={`project-${p.id}`} type="button" className="tile" data-tilt="9" data-dark={i % 2 || undefined} data-cursor="open" onClick={() => open(p)}>
             <span className="tile-title" data-text={p.title}>{p.title}</span>
+            <span className="tile-text">{p.brief}</span>
             <span className="tile-kind">{p.kind}</span>
           </button>
         ))}

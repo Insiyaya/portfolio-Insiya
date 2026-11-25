@@ -6,6 +6,7 @@ import { makeEnvironment } from '../light'
 import { outBack, smooth, span } from '../math'
 
 const UP = new Vector3(0, 1, 0)
+const CHEER = 1.7 // seconds: two turns and a jump when a message is sent
 
 /* Soap-film colour along grazing edges. */
 function addFilm(shader, uTime, amount) {
@@ -103,6 +104,7 @@ export function createContactWorld({ renderer, mascotGeometry }) {
   scene.add(pool)
 
   let layout = null
+  let cheer = 0 // seconds left
 
   return {
     scene,
@@ -115,6 +117,9 @@ export function createContactWorld({ renderer, mascotGeometry }) {
     resize(next) {
       layout = next
     },
+    cheer() {
+      cheer = CHEER
+    },
     update({ time, dt, presence, width, height, pointer, probe }) {
       uTime.value = time
       backdrop.update(time, width, height)
@@ -124,14 +129,18 @@ export function createContactWorld({ renderer, mascotGeometry }) {
       const y = tall ? layout.halfH * 0.62 : 0.12
       const e = outBack(span(presence, 0.2, 0.7), 1.8)
       const size = Math.max(0.0001, e * (tall ? 0.74 : 1.12))
-      group.position.set(x, y + Math.sin(time * 1.1) * 0.08, 0)
+      cheer = Math.max(0, cheer - dt)
+      const t = cheer ? 1 - cheer / CHEER : 0
+      const spin = smooth(t) * Math.PI * 4
+      const jump = Math.abs(Math.sin(t * Math.PI * 2)) * (1 - t) * (tall ? 0.28 : 0.55)
+      group.position.set(x, y + Math.sin(time * 1.1) * 0.08 + jump, 0)
       const gap = Math.hypot(probe.x - x, probe.y - y)
       const want = probe.on ? Math.max(0, 1 - gap / 2.6) : 0
       uPokeAmt.value += (want - uPokeAmt.value) * (1 - Math.exp(-6 * dt))
-      reach.set(probe.x - x, probe.y - y, 0.7).normalize().applyAxisAngle(UP, -(pointer.x * 0.4 + time * 0.12))
+      reach.set(probe.x - x, probe.y - y, 0.7).normalize().applyAxisAngle(UP, -(pointer.x * 0.4 + time * 0.12 + spin))
       uPoke.value.lerp(reach, 1 - Math.exp(-7 * dt)).normalize()
       group.scale.setScalar(size)
-      group.rotation.set(pointer.y * 0.2, pointer.x * 0.4 + time * 0.12, 0)
+      group.rotation.set(pointer.y * 0.2, pointer.x * 0.4 + time * 0.12 + spin, 0)
       ring.rotation.set(0.36 + Math.sin(time * 0.7) * 0.08, 0, -0.3 + Math.sin(time * 0.5) * 0.08)
       moon.position.set(Math.cos(time * 0.6) * 1.62, Math.sin(time * 0.6) * -0.5, Math.sin(time * 0.6) * 1.5)
       moon.scale.setScalar(0.13)

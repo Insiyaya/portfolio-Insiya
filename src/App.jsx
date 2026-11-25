@@ -40,7 +40,7 @@ export default function App() {
           <Credentials />
         </div>
       </main>
-      <Footer />
+      <Footer onOpen={setPanel} />
       <Panel open={panel} onClose={close} />
       <Cursor ribbon={!covered} />
     </>

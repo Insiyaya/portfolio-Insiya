@@ -3,7 +3,6 @@ export const LINKS = {
   twofolds: 'https://twofolds.shop/',
   ruby:     'https://www.rubycrm.ai/',
   linkedin: 'https://www.linkedin.com/in/insiya-husain-89b501259/',
-  email:    'https://mail.google.com/mail/?view=cm&to=insiyaahusainn@gmail.com',
 }
 
 /* Accents below are drawn from the design palette (see tailwind.config.js
@@ -156,9 +155,9 @@ export const EXPERIENCE = [
     role:    'Product Engineer',
     current: true,
     points: [
-      'Work on an agentic AI CRM for Dubai and UAE real estate: leads, WhatsApp, AI follow-ups, and one-click listings on Bayut, Property Finder, Dubizzle and Skyloov.',
-      'Track down bugs and fix them at the root, so agents can rely on the product through a busy day.',
-      'Turn user problems into product improvements, from first report to release.',
+      'Work on an agentic AI CRM for UAE real estate: WhatsApp leads, AI follow-ups and listings on Bayut and Dubizzle.',
+      'Track down bugs and fix them at the root, so that real estate agents can rely on the product through a busy day.',
+      'Turn the problems users report into product improvements, and follow each one from the first report to release.',
     ],
     tags: ['Product Engineering', 'Agentic AI', 'CRM', 'Real Estate Tech'],
   },
@@ -270,6 +269,7 @@ export const PROJECTS = [
     id:      'roboshots',
     title:   'Roboshots',
     kind:    'Cross-Platform App',
+    brief:   'A blog app in Flutter, with one codebase for phone, web and desktop.',
     desc:    'Cross-platform blog application built with Flutter and Dart, delivering a native experience on Android, iOS, Web, and Desktop from a single codebase. Implements responsive layouts, optimized image caching, and clean architecture patterns.',
     problem: 'One blog experience across four platforms — without maintaining four codebases.',
     outcome: 'Native builds for Android, iOS, Web and Desktop from one Flutter codebase.',
@@ -281,6 +281,7 @@ export const PROJECTS = [
     id:      'jumble',
     title:   'Jumble Words Game',
     kind:    'Desktop Application',
+    brief:   'A Tkinter word puzzle with accounts, an admin panel and saved scores.',
     desc:    'Desktop word puzzle game featuring a Tkinter GUI with user authentication, an admin panel for word management, persistent score tracking, and modular game logic designed for extensibility.',
     problem: 'A word game that also needed accounts, moderation and score history — not just game logic.',
     outcome: 'Tkinter GUI with auth, an admin word-management panel and persistent scoring.',
@@ -292,6 +293,7 @@ export const PROJECTS = [
     id:      'savour',
     title:   'Savour',
     kind:    'Cross-Platform App',
+    brief:   'A Flutter recipe app with favourites, filters and smooth navigation.',
     desc:    'Cross-platform recipe discovery app built with Flutter, showcasing provider-based state management, nested navigation, and category-driven filtering. Ships a polished UI with favourites, filtering, and smooth page transitions.',
     problem: 'Recipe discovery falls apart without fast filtering and somewhere to keep favourites.',
     outcome: 'Provider-driven state, nested navigation and category filtering in a polished UI.',
@@ -303,6 +305,7 @@ export const PROJECTS = [
     id:      'talawa',
     title:   'Talawa',
     kind:    'Open Source',
+    brief:   'Features, fixes and code reviews for a community management platform.',
     desc:    'Consistent contributor to PalisadoesFoundation\'s community management platform. Delivered feature PRs, resolved issues, and collaborated through code reviews in the open-source community.',
     problem: 'A community management platform maintained in the open by the Palisadoes Foundation.',
     outcome: 'Consistent contributor — feature PRs, issue fixes and code review collaboration.',
@@ -313,11 +316,11 @@ export const PROJECTS = [
 ]
 
 export const WORKFLOW = [
-  { step: 1, title: 'Discover and define', desc: 'I begin with the problem: who it affects, what constrains it, and what a good outcome looks like. Requirements become a clear specification before any code is written.' },
+  { step: 1, title: 'Discover and define', desc: 'I begin with the problem: who it affects, what constrains it and what a good outcome looks like. Then I write a clear specification before any code.' },
   { step: 2, title: 'Architect and plan',  desc: 'I choose the stack, model the data and agree the API contracts. Whether it is a set of FastAPI services or an agent pipeline, the blueprint comes first.' },
-  { step: 3, title: 'Build and iterate',   desc: 'I work in focused sprints with short feedback loops. Clean, modular code and continuous testing keep every feature ready for production.' },
+  { step: 3, title: 'Build and iterate',   desc: 'I work in focused sprints with short feedback loops. Clean, modular code and continuous testing keep every feature ready for production from the start.' },
   { step: 4, title: 'Deploy and scale',    desc: 'I release through CI/CD to containerised services on AWS, with infrastructure as code. Each deployment is reproducible, monitored and ready for real load.' },
-  { step: 5, title: 'Measure and refine',  desc: 'I follow the metrics, listen to users and iterate. Delivery is the midpoint of the work, not the end of it.' },
+  { step: 5, title: 'Measure and refine',  desc: 'I follow the metrics, listen to the people who use the product and iterate on what I learn. Delivery is the midpoint of the work, not the end of it.' },
 ]
 
 export const CERTS = [
@@ -349,6 +352,10 @@ export const EDUCATION = [
 
 export const EMAIL = 'insiyaahusainn@gmail.com'
 
+/* Web3Forms access key: the form sends each message to the inbox it belongs to.
+   It is made to be public and can only be used to write to that inbox. */
+export const CONTACT_KEY = '3db9bed0-1997-487e-be0d-63778a31ab50'
+
 export const ABOUT = {
   lead: 'I am a full stack and AI engineer who cares as much about the person using the software as the system behind it.',
   body: [
@@ -358,10 +365,69 @@ export const ABOUT = {
   ],
 }
 
+/* What each letter of the name stands for, and why. */
+export const ACRONYM = [
+  {
+    letter: 'I', word: 'Innovative', color: '#ff5cb6',
+    line: 'I like to build the thing that does not exist yet.',
+    points: [
+      'I founded Twofolds and gave it a custom studio, so that customers can wear their own artwork.',
+      'I built TripCraft AI, where a five-step agent researches, plans and checks a whole trip.',
+      'I made Ad Studio, which turns a business website into the concept for a video advertisement.',
+    ],
+  },
+  {
+    letter: 'N', word: 'Nimble', color: '#a488ff',
+    line: 'I move between layers without losing the thread.',
+    points: [
+      'I work across the interface, the API, the agent and the infrastructure.',
+      'I switch between React, FastAPI, Flutter and NestJS as the problem demands.',
+      'I work in focused sprints with short feedback loops.',
+    ],
+  },
+  {
+    letter: 'S', word: 'Systematic', color: '#8df5d6',
+    line: 'I prefer a clear plan to a lucky guess.',
+    points: [
+      'I write the specification and agree the API contracts before any code.',
+      'At Walkover I set up repeatable QA and integration tests.',
+      'I am certified as an AWS Solutions Architect, Associate, and in Microsoft Azure AI-900.',
+    ],
+  },
+  {
+    letter: 'I', word: 'Insightful', color: '#ffb14a',
+    line: 'I look for the reason behind the request.',
+    points: [
+      'At Ruby CRM I turn the problems users report into product improvements.',
+      'I trace a bug to its root instead of patching the symptom.',
+      'At Consultadd I designed DynamoDB pipelines that cut average query time.',
+    ],
+  },
+  {
+    letter: 'Y', word: 'Yearning', color: '#6cc7ff',
+    line: 'I am always hungry to learn the next thing.',
+    points: [
+      'I keep more than 40 public repositories, from Flutter apps to a smart contract on Aptos.',
+      'I am deepening my work in machine learning.',
+      'I contribute to open source, and my tests are part of Talawa.',
+    ],
+  },
+  {
+    letter: 'A', word: 'Adaptable', color: '#ff8a7a',
+    line: 'I fit the work, whatever shape it takes.',
+    points: [
+      'I am a founder and a product engineer, and each role improves the other.',
+      'I have built for travel, fashion, skincare, real estate and manufacturing.',
+      'I ship one Flutter codebase to Android, iOS, web and desktop.',
+    ],
+  },
+]
+
 export const SERVICES = [
-  { title: 'AI agent development',    desc: 'End-to-end agentic systems: LLM orchestration, prompt engineering and tool-use workflows.' },
-  { title: 'Backend engineering',     desc: 'High-throughput APIs and microservices with FastAPI, Django and event-driven architectures.' },
-  { title: 'Mobile and cross-platform', desc: 'Production Flutter apps for Android, iOS, web and desktop from a single codebase.' },
+  { title: 'Full stack engineering',  desc: 'Complete web products, from React and Next.js interfaces to the APIs, databases and deployments behind them.' },
+  { title: 'AI agent development',    desc: 'End-to-end agentic systems, with LLM orchestration, prompt engineering and tool-use workflows.' },
+  { title: 'Backend engineering',     desc: 'High-throughput APIs and microservices, built with FastAPI and Django on event-driven architectures.' },
+  { title: 'Mobile and cross-platform', desc: 'Production Flutter apps for Android, iOS, web and desktop, all shipped from a single codebase.' },
   { title: 'Cloud and infrastructure', desc: 'AWS-native deployments with DynamoDB, Lambda, Docker, Terraform and automated CI/CD.' },
 ]
 

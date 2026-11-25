@@ -4,7 +4,7 @@ import ProximityType from '../ui/ProximityType'
 
 const LINES = ['LET’S', 'CONNECT']
 
-export default function Footer() {
+export default function Footer({ onOpen }) {
   return (
     <footer id="contact" className="end">
       <span className="floor" aria-hidden="true" />
@@ -17,7 +17,7 @@ export default function Footer() {
           If you have a project in mind or a role to discuss, I would be glad to hear from you.
         </p>
         <div className="mt-8 flex flex-wrap items-center gap-3">
-          <a className="pill pill-solid pill-big" data-magnetic href={LINKS.email} target="_blank" rel="noopener noreferrer">Email me</a>
+          <button type="button" className="pill pill-solid pill-big" data-magnetic onClick={() => onOpen({ type: 'message' })}>Send a message</button>
           <a className="pill pill-big" data-magnetic href={LINKS.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
           <a className="pill pill-big" data-magnetic href={LINKS.github} target="_blank" rel="noopener noreferrer">GitHub</a>
           <a className="pill pill-big" data-magnetic href={LINKS.twofolds} target="_blank" rel="noopener noreferrer">Twofolds</a>

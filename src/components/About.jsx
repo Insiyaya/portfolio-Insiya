@@ -1,13 +1,14 @@
 import { ABOUT, RECRUITER_FACTS, SERVICES } from '../data'
 import { Buddy } from '../ui/kit'
 import ProximityType from '../ui/ProximityType'
+import LocalTime from './LocalTime'
 
 const LINES = ['I DON’T JUST', 'WRITE CODE.', 'I CONNECT', 'THE DOTS.']
 const keep = s => s.replace('AI-900', 'AI‑900') // no break inside the code
 const sentence = s => s.charAt(0).toUpperCase() + s.slice(1)
 
 /* Line icons from the work scene, one per service. */
-const SHAPES = ['50,8 92,82 8,82', '50,6 88,28 88,72 50,94 12,72 12,28', '14,14 86,14 86,86 14,86', '50,5 95,50 50,95 5,50']
+const SHAPES = ['50,6 94,38 77,90 23,90 6,38', '50,8 92,82 8,82', '50,6 88,28 88,72 50,94 12,72 12,28', '14,14 86,14 86,86 14,86', '50,5 95,50 50,95 5,50']
 
 export default function About() {
   return (
@@ -24,6 +25,7 @@ export default function About() {
             {ABOUT.body.map(text => <p key={text} className="max-w-[56ch]">{text}</p>)}
           </div>
           <p className="signature" aria-hidden="true">Insiya Husain</p>
+          <LocalTime />
         </div>
 
         {/* Lit signs, like the ones in the work scene */}
@@ -41,10 +43,15 @@ export default function About() {
       </div>
 
       <h3 className="display mt-28 text-[clamp(2rem,3.2vw,3rem)] text-ink lg:mt-40">What I offer</h3>
-      <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <ul className="services mt-8">
         {SERVICES.map((s, i) => (
           <li key={s.title} className="hud service" data-glow data-tilt="5">
-            <svg viewBox="0 0 100 100" aria-hidden="true"><polygon points={SHAPES[i]} pathLength="100" /></svg>
+            <svg viewBox="0 0 100 100" aria-hidden="true">
+              <polygon points={SHAPES[i]} pathLength="100" />
+              {i < 2 && [0.64, 0.34].map(k => (
+                <g key={k} className="service-inner"><polygon points={SHAPES[i]} pathLength="100" transform={`translate(50 50) scale(${k}) translate(-50 -50)`} /></g>
+              ))}
+            </svg>
             <p className="card-title">{s.title}</p>
             <p className="mt-2 leading-relaxed text-dim">{s.desc}</p>
           </li>

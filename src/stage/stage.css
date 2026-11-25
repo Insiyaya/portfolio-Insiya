@@ -1,5 +1,5 @@
 /* ── The stage: one letterboxed screen, pinned while its scenes scroll past ── */
-.stage-track { position: relative; height: calc(var(--scenes) * 100svh); }
+.stage-track { --screen: max(100svh, 380px); position: relative; height: calc(var(--scenes) * var(--screen)); }
 .stage-track[data-flat='true'] { height: auto; }
 .stage {
   position: sticky;
@@ -7,8 +7,7 @@
   display: flex;
   touch-action: pinch-zoom;
   flex-direction: column;
-  height: 100svh;
-  min-height: 460px;
+  height: var(--screen);
   padding-top: var(--bar);
   background: #000;
   overflow: hidden;
@@ -97,6 +96,10 @@
 }
 @keyframes turn { to { transform: rotate(360deg); } }
 
+.letter-keys { position: absolute; left: 6%; top: 14px; z-index: 3; display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.letter-keys button { padding: 8px 14px; border: 0; background: #fff; color: #000; font-family: var(--serif); font-size: 17px; }
+.letter-keys button:not(:focus-visible) { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
 /* Subtitles */
 .subtitle { position: absolute; left: 0; right: 0; bottom: 34px; margin: 0; text-align: center; pointer-events: none; }
 .subtitle span {
@@ -117,45 +120,28 @@
 .contact { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity 0.5s; }
 .contact[data-visible='true'] { opacity: 1; transition-delay: 0.7s; }
 .contact[data-visible='true'] .contact-panel { pointer-events: auto; }
-.contact-panel { position: absolute; left: 8%; top: 50%; width: min(500px, 42%); transform: translateY(-50%); color: var(--ink); }
-.contact-title { margin: 0 0 18px; font-family: var(--script); font-size: clamp(46px, 5.1vw, 84px); font-weight: 400; line-height: 1; white-space: nowrap; }
-.contact-lead { margin: 0 0 26px; color: var(--soft); font-family: var(--serif); font-size: 20px; line-height: 1.45; }
-.contact label { display: block; margin-bottom: 16px; color: var(--violet-soft); font-family: var(--serif); font-size: 17px; font-style: italic; }
-.contact input, .contact textarea {
-  display: block;
-  width: 100%;
-  padding: 8px 0;
-  border: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 0;
-  background: none;
-  color: #fff;
-  font-family: var(--serif);
-  font-size: 20px;
-  font-style: normal;
-  resize: none;
+/* Sizes follow the window's height, so the whole form always fits between the header and the dots. */
+.contact-panel {
+  --msg-title: clamp(40px, min(5vw, 8.4svh), 84px);
+  --msg-title-gap: clamp(8px, 1.9svh, 20px);
+  --msg-lead: clamp(17px, 2.5svh, 20px);
+  --msg-lead-gap: clamp(12px, 2.8svh, 28px);
+  --msg-gap: clamp(10px, 2.2svh, 20px);
+  --msg-label: clamp(16px, 2.1svh, 17px);
+  --msg-pad: clamp(4px, 1svh, 9px);
+  --msg-text: clamp(18px, 2.5svh, 20px);
+  --msg-area: clamp(3.1em, 13svh, 5.6em);
+  --msg-note-gap: clamp(6px, 1.5svh, 16px);
+  --msg-button: clamp(9px, 1.5svh, 13px);
+  position: absolute;
+  left: 6%;
+  top: 50%;
+  width: min(570px, 46%);
+  transform: translateY(-50%);
+  color: var(--ink);
 }
-.contact input::placeholder, .contact textarea::placeholder { color: #9a93ad; font-style: italic; }
-.contact input:focus, .contact textarea:focus { outline: 0; border-bottom-color: var(--violet); box-shadow: 0 1px 0 var(--violet); }
-.contact-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 22px; }
-.contact-actions button {
-  padding: 13px 24px;
-  border: 0;
-  border-radius: 999px;
-  background: var(--violet-soft);
-  color: #0a0712;
-  font-family: var(--serif);
-  font-size: 19px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-.contact-actions button:hover { background: #fff; }
-.contact a { color: var(--ink); text-underline-offset: 4px; text-decoration-color: rgba(255, 255, 255, 0.35); }
-.contact a:hover { text-decoration-color: currentColor; }
-.contact-actions a, .contact-links a { font-family: var(--serif); font-size: 18px; font-style: italic; }
-.contact-note { min-height: 1.4em; margin: 12px 0 0; color: var(--mint); font-family: var(--serif); font-size: 17px; }
-.contact-links { display: flex; gap: 20px; margin: 6px 0 0; font-size: 14px; }
+.contact .msg-title { white-space: nowrap; }
+.contact-links { display: inline-flex; gap: 18px; }
 
 /* No WebGL: plain, still complete */
 .stage-flat { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 0 6%; }
@@ -172,27 +158,49 @@
 }
 /* Upright screens: planet above, form below */
 @media (max-aspect-ratio: 11/10) {
-  .contact-panel { left: 7%; right: 7%; top: auto; bottom: 14px; width: auto; transform: none; }
+  .contact-panel {
+    --msg-title: clamp(34px, min(10vw, 5.2svh), 64px);
+    --msg-title-gap: 6px;
+    --msg-lead: 16.5px;
+    --msg-lead-gap: 10px;
+    --msg-gap: 8px;
+    --msg-label: 15px;
+    --msg-pad: 4px;
+    --msg-text: 17px;
+    --msg-area: 3em;
+    --msg-note-gap: 6px;
+    --msg-button: 10px;
+    left: 7%;
+    right: 7%;
+    top: auto;
+    bottom: 12px;
+    width: auto;
+    transform: none;
+  }
+  .contact .msg-lead { line-height: 1.35; }
+  .contact-links { display: none; }
   .contact::before { inset: auto 0 0; width: auto; height: 66%; background: linear-gradient(to top, rgba(0, 0, 0, 0.88) 70%, transparent); }
-  .contact-title { font-size: clamp(34px, 10vw, 64px); margin-bottom: 6px; }
-  .contact-lead { margin-bottom: 10px; font-size: 16.5px; line-height: 1.35; }
-  .contact input, .contact textarea { font-size: 17px; }
-  .contact label { font-size: 15px; }
-  .contact label { margin-bottom: 8px; }
-  .contact input, .contact textarea { padding: 5px 0; }
-  .contact textarea { height: 2.9em; }
-  .contact-actions { margin-top: 12px; }
-  .contact-actions button { padding: 11px 20px; }
-  .contact-note { min-height: 0; margin-top: 6px; }
 }
-/* Short, wide windows */
-@media (max-height: 620px) and (min-aspect-ratio: 11/10) {
-  .contact-title { font-size: 42px; margin-bottom: 8px; }
-  .contact-lead { margin-bottom: 10px; font-size: 17px; }
-  .contact label { margin-bottom: 8px; }
-  .contact textarea { height: 2.9em; }
-  .contact-actions { margin-top: 10px; }
-  .contact-note { min-height: 0; margin-top: 4px; }
+/* Smaller phones: the planet keeps its room, the extras give way */
+@media (max-aspect-ratio: 11/10) and (max-height: 800px) {
+  .contact .msg:not([data-state='sent']) .msg-lead { display: none; }
+}
+@media (max-aspect-ratio: 11/10) and (max-height: 720px) {
+  .contact-mail { display: none; }
+}
+@media (max-aspect-ratio: 11/10) and (max-height: 600px) {
+  .contact .msg-grid { grid-template-columns: 1fr 1fr; column-gap: 18px; }
+  .contact .msg-error { font-size: 14px; }
+}
+/* Short, wide windows: the title takes one line */
+@media (max-height: 600px) and (min-aspect-ratio: 11/10) {
+  .contact-panel { --msg-title: clamp(30px, 3.4vw, 40px); }
+  .contact .msg-title br { display: none; }
+}
+@media (max-height: 500px) and (min-aspect-ratio: 11/10) {
+  .contact-panel { --msg-area: 2.2em; --msg-gap: 6px; --msg-label: 15px; --msg-text: 17px; }
+  .contact .msg-lead, .contact .msg-actions a { display: none; }
+  .contact .msg[data-state='sent'] .msg-lead { display: block; }
 }
 @media (prefers-reduced-motion: reduce) {
   .explore, .explore-ring, .dots, .contact { animation: none; transition-duration: 0.01s; transition-delay: 0s !important; }

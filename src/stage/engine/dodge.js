@@ -1,6 +1,6 @@
 /* Makes a floating object dodge the cursor: a damped spring with a push away
    from the probe (the cursor projected into the scene). */
-export function createDodge({ radius = 1.5, force = 30, stiffness = 34, damping = 5.2 } = {}) {
+export function createDodge({ radius = 1.5, force = 30, stiffness = 34, damping = 5.2, twist = 16 } = {}) {
   const s = { x: 0, y: 0, vx: 0, vy: 0, turn: 0, vt: 0, near: 0 }
   return {
     state: s,
@@ -16,7 +16,7 @@ export function createDodge({ radius = 1.5, force = 30, stiffness = 34, damping 
           near = 1 - d / radius
           fx = (dx / d) * near * force
           fy = (dy / d) * near * force
-          s.vt += (dx > 0 ? 1 : -1) * near * 16 * dt
+          s.vt += (dx > 0 ? 1 : -1) * near * twist * dt
         }
       }
       s.near += (near - s.near) * (1 - Math.exp(-10 * dt))

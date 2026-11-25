@@ -1,4 +1,6 @@
 import { useEffect, useRef } from 'react'
+import LetterPanel from './LetterPanel'
+import MessageForm from './MessageForm'
 
 /* Opens on the spot when a screen, card or plaque is clicked. Native <dialog>:
    focus is trapped, Escape closes it, and the page behind is inert. */
@@ -10,6 +12,7 @@ export default function Panel({ open, onClose }) {
       el.showModal()
       el.scrollTop = 0
       document.dispatchEvent(new Event('panel-open'))
+      if (open.type === 'message') el.querySelector('[name=name]')?.focus()
     }
     if (!open && el.open) el.close()
   }, [open])
@@ -19,6 +22,11 @@ export default function Panel({ open, onClose }) {
   const title = isProject ? item?.title : item?.company
   const points = isProject ? item?.highlights : item?.points
   const live = isProject ? item?.live : item?.href
+  const close = (
+    <button type="button" className="panel-close" onClick={() => ref.current.close()} aria-label="Close">
+      <span aria-hidden="true" />
+    </button>
+  )
 
   return (
     <dialog
@@ -28,11 +36,23 @@ export default function Panel({ open, onClose }) {
       onClose={onClose}
       onClick={e => e.target === ref.current && ref.current.close()}
     >
-      {item && (
+      {open?.type === 'message' && (
         <div className="panel-body">
-          <button type="button" className="panel-close" onClick={() => ref.current.close()} aria-label="Close">
-            <span aria-hidden="true" />
-          </button>
+          {close}
+          <div className="panel-text panel-message">
+            <MessageForm titleId="panel-title" title="Send me a message" lead="Tell me about the project or the role, and I will reply by email." />
+          </div>
+        </div>
+      )}
+      {open?.type === 'letter' && (
+        <div className="panel-body">
+          {close}
+          <LetterPanel start={item.index} />
+        </div>
+      )}
+      {item && open.type !== 'letter' && (
+        <div className="panel-body">
+          {close}
           {isProject && item.shot && (
             <div className="panel-shot">
               <img src={item.shot} alt={`Home page of ${item.title}`} width="1200" height="750" />

@@ -215,6 +215,7 @@ export function createWorkWorld({ renderer, mascotGeometry, projects }) {
       stack.scale.set(fit, fit, 1)
       mirror.scale.set(fit, -fit, 1)
     },
+    kind: 'project',
     pick(raycaster) {
       const hit = raycaster.intersectObjects(signs.map(s => s.mesh), false)[0]
       hovered = hit?.object.userData.project ?? null

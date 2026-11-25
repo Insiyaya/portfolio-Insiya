@@ -23,7 +23,7 @@ function measure(w, h) {
 }
 
 /* `onHover` reports what the cursor is over: { type, item } or null. */
-export async function createEngine({ mount, skills, projects, experience, reduced, onHover, onLost }) {
+export async function createEngine({ mount, skills, projects, experience, acronym, reduced, onHover, onLost }) {
   await loadFaces()
 
   const coarse = window.matchMedia('(pointer: coarse)').matches
@@ -46,7 +46,7 @@ export async function createEngine({ mount, skills, projects, experience, reduce
   const composite = createComposite(renderer, { bloom: !coarse })
   const camera = new PerspectiveCamera(FOV, 1, 0.1, 80)
   const mascotGeometry = createMascotGeometry()
-  const shared = { renderer, mascotGeometry, skills, projects, experience }
+  const shared = { renderer, mascotGeometry, skills, projects, experience, acronym }
   const worlds = [createNameWorld(shared), createCraftWorld(shared), createJourneyWorld(shared), createWorkWorld(shared), createContactWorld(shared)]
   const rig = createRig()
   const trail = createTrail()
@@ -248,7 +248,7 @@ export async function createEngine({ mount, skills, projects, experience, reduce
     if (world.pick) {
       raycaster.setFromCamera(quick, camera)
       const item = onMascot() ? null : world.pick(raycaster)
-      if (item) return setHover({ type: current === 2 ? 'role' : 'project', item })
+      if (item) return setHover({ type: world.kind, item })
     }
     setHover(onMascot() ? { type: 'mascot', item: null } : null)
   }
@@ -343,6 +343,10 @@ export async function createEngine({ mount, skills, projects, experience, reduce
       scan()
       if (hover?.type === 'mascot' && !reduced) rig.hop()
       return hover
+    },
+    /* A little celebration from whoever is on screen. */
+    cheer() {
+      if (!reduced) worlds[current]?.cheer?.()
     },
     setRunning(on) {
       if (disposed || on === running) return

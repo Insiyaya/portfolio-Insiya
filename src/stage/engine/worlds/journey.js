@@ -211,6 +211,7 @@ export function createJourneyWorld({ renderer, mascotGeometry, experience }) {
       spots = next.tall ? TALL : WIDE
       wire()
     },
+    kind: 'role',
     pick(raycaster) {
       const hit = raycaster.intersectObjects(plaques.map(p => p.group), true)[0]
       hovered = hit?.object.userData.job ?? null

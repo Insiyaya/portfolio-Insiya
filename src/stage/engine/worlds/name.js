@@ -8,7 +8,8 @@ import { letterGeometry } from '../glyphs'
 import { addRim, makeEnvironment } from '../light'
 import { createDodge } from '../dodge'
 import { createMascot } from '../mascot'
-import { clamp01, inCubic, lerp, outBack, outCubic, seeded, smooth, span } from '../math'
+import { wordTexture } from '../words'
+import { clamp01, damp, inCubic, lerp, outBack, outCubic, seeded, smooth, span } from '../math'
 
 const FLOOR_Y = -1.75
 const COLS = 15
@@ -35,7 +36,7 @@ const TALL = [
   { char: 'A', x: 0.64, y: -0.5, z: 0, rot: [0, -0.2, -0.12], at: 0.26 },
 ]
 
-export function createNameWorld({ renderer, mascotGeometry }) {
+export function createNameWorld({ renderer, mascotGeometry, acronym }) {
   const scene = new Scene()
   const env = makeEnvironment(renderer, '#0b0713', [
     [9, 5, 3, 9, 7, '#ffe9fb', 5],
@@ -70,12 +71,18 @@ export function createNameWorld({ renderer, mascotGeometry }) {
   const letterMat = new MeshStandardMaterial({ color: '#a8a4b4', roughness: 0.75, envMapIntensity: 0.4, emissive: '#f1eff7', emissiveIntensity: 0.5 })
   const geos = Object.fromEntries([...new Set('INSIYA')].map(c => [c, letterGeometry(c, 1.4, 0.42)]))
   const white = new Color('#f1eff7')
-  const hot = new Color('#ff2da0')
-  const letters = [...'INSIYA'].map((char, i) => {
-    const mesh = new Mesh(geos[char], letterMat.clone())
+  // Each letter has the word it stands for printed along its stroke.
+  const letters = acronym.map((entry, i) => {
+    const tex = wordTexture(entry.letter, entry.word)
+    const face = letterMat.clone()
+    face.map = tex
+    face.emissiveMap = tex
+    const mesh = new Mesh(geos[entry.letter], [face, letterMat.clone()])
+    mesh.userData.item = { index: i }
     scene.add(mesh)
-    return { mesh, i }
+    return { mesh, i, tex, hot: new Color(entry.color), h: 0 }
   })
+  let hovered = null
 
   /* ── Props ── */
   const glossy = new MeshPhysicalMaterial({ color: '#09070e', roughness: 0.2, clearcoat: 1, clearcoatRoughness: 0.12, envMapIntensity: 1 })
@@ -170,7 +177,8 @@ export function createNameWorld({ renderer, mascotGeometry }) {
   let probe = { on: false }
   let dt = 0.016
   function settle(mesh, home, rot, scale, e, presence, spin, time, seed) {
-    if (!dodges.has(mesh)) dodges.set(mesh, createDodge({ radius: 1.35, force: 34 }))
+    // Letters hold still so they can be clicked; the props get out of the way.
+    if (!dodges.has(mesh)) dodges.set(mesh, createDodge(mesh.userData.item ? { radius: 1, force: 0, twist: 0 } : { radius: 1.35, force: 34 }))
     const d = dodges.get(mesh).update(home[0], home[1], e >= 1 && presence >= 1 ? probe : { on: false }, dt)
     const out = outBack(e, 2.1)
     const keep = smooth(presence)
@@ -194,6 +202,15 @@ export function createNameWorld({ renderer, mascotGeometry }) {
   return {
     scene,
     mascot,
+    kind: 'letter',
+    pick(raycaster) {
+      const hit = raycaster.intersectObjects(letters.map(l => l.mesh), false)[0]
+      hovered = hit?.object.userData.item ?? null
+      return hovered
+    },
+    clearHover() {
+      hovered = null
+    },
     look: { bloom: 0.42, threshold: 1.1, vignette: 0.5, aberration: 0.3 },
     trail: ['#ff2da0', '#ffb14a', 1.25],
     camera: { zoom: 1, y: 0.15 },
@@ -215,18 +232,31 @@ export function createNameWorld({ renderer, mascotGeometry }) {
       const hw = Math.min(layout.halfW, 5.5)
       const hh = layout.halfH
       const k = layout.tall ? (hw / 2.1) * 0.86 : 1
-      letters.forEach(({ mesh, i }) => {
+      letters.forEach(l => {
+        const { mesh, i } = l
         const s = spots[i]
         settle(mesh, [s.x * hw, s.y * hh, s.z], s.rot, k, span(intro, s.at, 0.8), presence, i % 2 ? 2.6 : -2.6, time, i)
-        const near = Math.min(1, dodges.get(mesh).state.near * 1.8)
-        mesh.material.emissive.lerpColors(white, hot, near)
-        mesh.material.emissiveIntensity = 0.5 + near * 0.35
+        // Under the cursor a letter turns to face you and comes closer, so its word can be read.
+        l.h = damp(l.h, hovered?.index === i ? 1 : 0, 9, delta)
+        mesh.scale.multiplyScalar(1 + l.h * 0.24)
+        mesh.position.z += l.h * 0.75
+        mesh.rotation.set(mesh.rotation.x * (1 - l.h), mesh.rotation.y * (1 - l.h), mesh.rotation.z * (1 - l.h * 0.75))
+        // Every few seconds a glow runs along the name, as an invitation.
+        const beat = intro > 4 ? span((time % 7) - i * 0.16, 0, 0.6) : 0
+        const near = Math.max(l.h, Math.sin(beat * Math.PI) * 0.55)
+        mesh.material.forEach((m, side) => {
+          m.emissive.lerpColors(white, l.hot, near)
+          m.emissiveIntensity = (side ? 0.5 : 0.74) + near * 0.3
+        })
       })
       const tall = layout.tall
       settle(ball, tall ? [-hw * 0.62, -hh * 0.16, -1.2] : [-hw * 0.78, -hh * 0.72, 0.5], [0, 0, 0], tall ? 0.5 : 0.82, span(intro, 0.12, 0.8), presence, 0, time, 8)
       settle(knot, tall ? [hw * 0.62, hh * 0.28, -1] : [hw * 0.4, hh * 0.72, -1], [time * 0.4, time * 0.5, 0], tall ? 0.8 : 1, span(intro, 0.18, 0.8), presence, 3, time, 9)
       settle(cube, tall ? [hw * 0.66, -hh * 0.14, -0.6] : [hw * 0.66, -hh * 0.6, 0.3], [time * 0.22, time * 0.3, 0.2], tall ? 0.7 : 1, span(intro, 0.15, 0.8), presence, -3, time, 10)
     },
-    dispose: () => env.dispose(),
+    dispose() {
+      env.dispose()
+      letters.forEach(l => l.tex.dispose())
+    },
   }
 }
